@@ -17,9 +17,10 @@ angular.module('starter.controllers', [])
 	
 	$scope.user = {email:"",password:""}
 	
-	// holds the messge erros to appear under each input 
+	// holds the Message erros to appear under each input 
 	
 	$scope.errorMessage ={email:"",password:""}
+	
 	
 	$scope.emailLogin = function(){
 	//$createUserWithEmailAndPassword
@@ -41,8 +42,17 @@ angular.module('starter.controllers', [])
 			$scope.errorMessage.email = $scope.error.message;
        
 		});
-	
 	};
+	
+	$scope.facebookLogin = function(){
+		
+		Auth.$signInWithPopup("facebook").then(function(firebaseUser) {
+		 console.log("Signed in as:", firebaseUser);
+		
+	  }).catch(function(error) {
+		 console.log("Authentication failed:", error);
+	  });
+	}
 
 	
 })
