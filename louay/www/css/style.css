@@ -1,1 +1,49 @@
-/* Empty. Add your own CSS if you like */
+.center-form {
+  width: 315px;
+  margin: 10% auto;
+}
+.signup-or-separator {
+  position: relative;
+  height: 29px;
+  margin: 5px 0;
+  text-align: center;
+  background: none;
+}
+
+.signup-or-separator hr {
+  width: 90%;
+  margin: -16px auto 10px auto;
+  border-top: 1px solid #dce0e0;
+}
+
+.signup-or-separator .text {
+  display: inline-block;
+  padding: 8px;
+  margin: 0;
+  background-color: #fff;
+}
+
+
+
+.has-feedback .form-control-feedback {
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  color: #555;
+}
+
+.has-feedback .form-control {
+  padding-left: 42px;
+}
+.btn-instagram {
+  color: #fff;
+  background-color: #fbad50;
+  border: 1px solid #fccc63;
+}
+.btn-facebook {
+  color: #fff;
+  background-color: #517fa4;
+  border: 1px solid #456c8c;
+}

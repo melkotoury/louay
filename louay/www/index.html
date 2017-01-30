@@ -15,8 +15,10 @@
           .catch(err => console.log('Error', err));
       }
     </script>-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -28,8 +30,23 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
-    <!-- your app's js -->
+    
+    <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+	 <script>
+	  // Initialize Firebase
+	   var config = {
+		  apiKey: "AIzaSyBMuRKwirX_9Bdytb3l0f6KrBbkBPMcBS8",
+		  authDomain: "louay-5eddd.firebaseapp.com",
+		  databaseURL: "https://louay-5eddd.firebaseio.com",
+		  storageBucket: "louay-5eddd.appspot.com",
+		  messagingSenderId: "117649533851"
+	   };
+	   firebase.initializeApp(config);
+	 </script>
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+ 
+       <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
   </head>
