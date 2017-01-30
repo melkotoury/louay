@@ -15,7 +15,7 @@
             <span class="ion-at form-control-feedback"></span>
             <div class="help-block" ng-if="loginForm.email.$dirty" ng-messages="loginForm.email.$error">
               <div ng-message="required">Please enter your email</div>
-              <div ng-message="server">{{errorMessage.email}}</div>
+              <div class="text-danger" ng-message="server">{{errorMessage.email}}</div>
             </div>
           </div>
 
@@ -24,7 +24,7 @@
             <span class="ion-key form-control-feedback"></span>
             <div class="help-block" ng-if="loginForm.password.$dirty" ng-messages="loginForm.password.$error">
               <div ng-message="required">Please enter your password</div>
-              <div ng-message="server">{{errorMessage.password}}</div>
+              <div class="text-danger" ng-message="server">{{errorMessage.password}}</div>
             </div>
           </div>
 
