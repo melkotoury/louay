@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -45,14 +45,23 @@ angular.module('starter.controllers', [])
 	};
 	
 	$scope.facebookLogin = function(){
-		
-		Auth.$signInWithPopup("facebook").then(function(firebaseUser) {
+		//preparing the firebase auth provider
+		var provider = new firebase.auth.FacebookAuthProvider();
+	   //Setting the scope to get the public profile data with the user
+		provider.addScope('public_profile');
+      //**Note** asking for more user data will require a review of the app
+
+		Auth.$signInWithPopup(provider).then(function(firebaseUser) {
 		 console.log("Signed in as:", firebaseUser);
+			//TODO Route The user
+			//TODO Route after that the user to the rest of the fields in the signup process
 		
 	  }).catch(function(error) {
+	    //TODO show error to the user using a pop up	
 		 console.log("Authentication failed:", error);
 	  });
 	}
+	
 
 	
 })
