@@ -33,7 +33,7 @@ All app preview screenshots were taken by running `ionic serve --lab`.
 
 - [Login Page](https://github.com/melkotoury/louay/blob/master/louay/www/templates/login.html)
 
-  <img src="http://imgur.com/a/OJKdW" alt="login">
+  <img src="http://i.imgur.com/Bn7JFWH.png" alt="login">
 
 
 
