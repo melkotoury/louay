@@ -25,25 +25,36 @@
 
 
 
+
 .has-feedback .form-control-feedback {
-  top: 0;
+  bottom: 5;
   left: 0;
   width: 46px;
-  height: 46px;
   line-height: 46px;
   color: #555;
 }
 
+
 .has-feedback .form-control {
   padding-left: 42px;
+  padding-top: 21px;
+  
 }
 .btn-instagram {
   color: #fff;
   background-color: #fbad50;
   border: 1px solid #fccc63;
+  margin-bottom: 9px;
+	
 }
 .btn-facebook {
+	
   color: #fff;
   background-color: #517fa4;
   border: 1px solid #456c8c;
+	 
+}
+
+.text-muted {
+  color: #90939a;
 }
