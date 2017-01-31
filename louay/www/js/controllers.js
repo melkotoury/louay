@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('loginCtrl', function($scope,Auth) {
+.controller('loginCtrl', function($scope,Auth,$http) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -63,13 +63,36 @@ angular.module('starter.controllers', [])
 	}
 	
 	$scope.instagramLogin = function(){
-		//Very Basic instgramlogin with the local server 
-	   //This should change will for wraper around
-		 window.open('https://instgramlogin.herokuapp.com/redirect', 'firebaseAuth');
-		//TODO Route The user
-		//TODO Route after that the user to the rest of the fields in the signup process
+	/*To auth in the server needed for the first time only it adds the instgram acess tokken to the DB 
+	  which will allow acess to the Instgram API
+	*/	
+	window.open('https://instgramlogin.herokuapp.com/redirect','_system', 'location=yes');
+		//SHOULD BE MOVED TO A SERVICE recives the Coustm tokken for the server side and signin the user with
+		
+		$http.get("https://instgramlogin.herokuapp.com/log")
+    
+			.then(function(response) {
+			console.log(response.data);	
+			firebase.auth().signInWithCustomToken(response.data).then(function(firebaseUser) { 
+				//ROUTE THE USER
+			}).catch(function(error) {
+				//TODO show error to the user using a pop up	
+				console.log("Authentication failed:", error);
+			});
+		})
+		
 	}
 
+	Auth.$onAuthStateChanged(function(firebaseUser) {
+      
+		console.log(firebaseUser);
+		
+	});
+	$scope.logout=function(){
+	
+		Auth.$signOut()
+	
+	}
 	
 })
 

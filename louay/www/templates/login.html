@@ -33,7 +33,7 @@
           <br/>
 
           <p class="text-center text-muted">
-            <small>Don't have an account yet? <a href="#/signup">Sign up</a></small>
+            <small>Don't have an account yet? <a ng-click="logout()" href="#/signup">Sign up</a></small>
           </p>
 
           <div class="signup-or-separator">
@@ -42,7 +42,7 @@
           </div>
         </form>
         <div class="social-btn">
-        <button class="btn btn-block btn-instagram" ng-click="instagramLogin()">
+        <button class="btn btn-block btn-instagram"  ng-click="instagramLogin()">
           <i class="ion-social-instagram"></i> Sign in with Instagram
         </button>
          <button class="btn btn-block btn-facebook" ng-click="facebookLogin()">
