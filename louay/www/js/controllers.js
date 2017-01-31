@@ -62,6 +62,13 @@ angular.module('starter.controllers', [])
 	  });
 	}
 	
+	$scope.instagramLogin = function(){
+		//Very Basic instgramlogin with the local server 
+	   //This should change will for wraper around
+		 window.open('http://localhost:8080/redirect', 'firebaseAuth');
+		//TODO Route The user
+		//TODO Route after that the user to the rest of the fields in the signup process
+	}
 
 	
 })
