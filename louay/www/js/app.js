@@ -22,6 +22,17 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
   });
 })
 
+.run(["$rootScope", "$state", function($rootScope, $state) {
+  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+    // We can catch the error thrown when the $requireSignIn promise is rejected
+    // and redirect the user back to the home page
+    if (error === "AUTH_REQUIRED") {
+      $state.go("app.login");
+    }
+  });
+}])
+
+
 .config(['$httpProvider', function($httpProvider) {
   
         $httpProvider.defaults.useXDomain = true;
@@ -61,7 +72,15 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
       views: {
         'menuContent': {
           templateUrl: 'templates/home.html',
-          controller: 'homeCtrl'
+          controller: 'homeCtrl',
+			   resolve: {
+        // controller will not be loaded until $waitForSignIn resolves
+        // Auth refers to our $firebaseAuth wrapper in the factory below
+        "currentAuth": ["Auth", function(Auth) {
+          // $waitForSignIn returns a promise so the resolve waits for it to complete
+          return Auth.$requireSignIn();
+        }]
+      }
         }
       }
     })

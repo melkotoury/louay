@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('loginCtrl', function($scope,Auth,$http) {
+.controller('loginCtrl', function($scope,Auth,$http, $state) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 	
 		Auth.$signInWithEmailAndPassword($scope.user.email, $scope.user.password)
 			.then(function(firebaseUser) {
-          
+           $state.go("app.home");
 			//TODO when user is logged in
 		
 		}).catch(function(error) {
@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
 		Auth.$signInWithPopup(provider).then(function(firebaseUser) {
 		 console.log("Signed in as:", firebaseUser);
-			//TODO Route The user
+			 $state.go("app.home");
 			//TODO Route after that the user to the rest of the fields in the signup process
 		
 	  }).catch(function(error) {
@@ -74,7 +74,7 @@ angular.module('starter.controllers', [])
 			.then(function(response) {
 			console.log(response.data);	
 			firebase.auth().signInWithCustomToken(response.data).then(function(firebaseUser) { 
-				//ROUTE THE USER
+ 						$state.go("app.home");
 			}).catch(function(error) {
 				//TODO show error to the user using a pop up	
 				console.log("Authentication failed:", error);
@@ -97,8 +97,8 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('homeCtrl', function($scope) {
-  
+.controller('homeCtrl', function($scope,currentAuth) {
+  console.log(currentAuth)
 })
 
 
