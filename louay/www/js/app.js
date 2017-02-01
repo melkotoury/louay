@@ -40,7 +40,13 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
   }])
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+  
+$stateProvider
+  .state('intro', {
+    url: '/',
+    templateUrl: 'templates/intro.html',
+    controller: 'IntroCtrl'
+  })
 
     .state('app', {
     url: '/app',
@@ -95,5 +101,5 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/');
 });

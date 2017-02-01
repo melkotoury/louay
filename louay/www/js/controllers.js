@@ -102,6 +102,32 @@ angular.module('starter.controllers', [])
 })
 
 
+.controller('IntroCtrl', function($scope,$state,$timeout) {
+//Should be moved to resolve and handled with a promise
+	if(localStorage.getItem("Sawintro")=="true")	
+		$state.go("app.login");	
+
+$scope.$on("$ionicSlides.sliderInitialized", function(event, data){
+  // data.slider is the instance of Swiper
+  		$scope.slider = data.slider;
+});
+
+$scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
+  // note: the indexes are 0-based
+  $scope.activeIndex = data.slider.activeIndex;
+  $scope.previousIndex = data.slider.previousIndex;
+  if(data.slider.activeIndex==2)
+	     $timeout(goLogIn, 3000);
+	    //Set the sawintro item to true in the local storage , route the user to the login page 
+	function goLogIn(){
+		localStorage.setItem("Sawintro", "true");
+			$state.go("app.login");	
+	}
+
+});
+
+})
+
 
     /* // Create a new user
       Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
