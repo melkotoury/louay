@@ -1,13 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+ $scope.$on('$ionicView.enter', function(e) {
+ if(localStorage.getItem("Sawintro")!="true")
+	 	$state.go("intro");	
+
+ });
 
 })
 
@@ -104,9 +107,8 @@ angular.module('starter.controllers', [])
 
 .controller('IntroCtrl', function($scope,$state,$timeout) {
 //Should be moved to resolve and handled with a promise
-	if(localStorage.getItem("Sawintro")=="true")	
-		$state.go("app.login");	
-
+	
+		
 $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
   // data.slider is the instance of Swiper
   		$scope.slider = data.slider;
@@ -127,6 +129,13 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 });
 
 })
+
+
+
+.controller('signupCtrl', function($scope) {
+  
+})
+
 
 
     /* // Create a new user

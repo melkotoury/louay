@@ -91,15 +91,15 @@ $stateProvider
       }
     })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
+  .state('app.signup', {
+    url: '/signup',
     views: {
       'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+        templateUrl: 'templates/signup.html',
+        controller: 'signupCtrl'
       }
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('app/home');
 });
