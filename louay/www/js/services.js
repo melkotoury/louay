@@ -8,8 +8,30 @@ angular.module('starter.services', ["firebase"])
 ])
 
 .factory("userData" , function(){
+	//Genric user for signup and holding the userdata
+	var user = {email:"", 
+					displayName:"",
+					birthday:"",
+					type:"",
+					Catgories:{},
+					Height:"",
+					Weight:"",
+					Bust:"",
+					Waist:"",
+				   Hips:"",
+				   Ethnicity:"",
+				   Cup:"",
+				   Dress:"",
+				   Shoe:"",
+				   HairColor:"",
+				   HairLength:"",
+				   EyeColor:"",
+				  	Shootnudes:"",
+				  	Tattoos:"",
+				  	Piercings:"",
+				  	PhotoURI:"",
+				  	UID:"",
+				  	Provider:""};
 	
-	var user = {email:"", displayName:"",birthday:"",};
-	
-	
+	return user;
 });
