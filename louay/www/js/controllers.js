@@ -188,6 +188,30 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					console.log("error in adding to firebase");		 
 				})		
 	}	
+		else if (($scope.user.type == 'Client') ){
+					
+			
+		   var userref = firebase.database().ref("/Client/"+UID)
+				
+			.set({
+					displayName:$scope.user.displayName,
+					birthday:$scope.user.birthday,
+					Catgories:$scope.user.Catgories,
+					mail:$scope.user.email,
+					UID:UID,
+					Provider:$scope.user.Provider,
+					Gender:$scope.user.Gender
+				})
+				.then(function(){
+					//TODO ALERT THE USER
+					console.log("user Added");				 	
+				})
+				.catch(function(error){
+					//TODO ALERT THE USER
+					console.log("error in adding to firebase");		 
+				})		
+			
+					}
 }
 	
 	// when the user clicks it add the category into the array if its already exist it means that the user unchecked it so it will be removed from the array
