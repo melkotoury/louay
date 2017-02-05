@@ -132,9 +132,75 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaImagePicker,userData) {
+.controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state,$firebaseArray) {
   $scope.user = userData;
 	console.log( $scope.user);
+	
+
+	
+	$scope.emailSignup = function(){
+	
+		if($scope.user.pw1 === $scope.user.pw1) {
+			Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.pw1)
+        .then(function(firebaseUser) {
+				 	var userref = firebase.database().ref("/users/"+firebaseUser.uid).set({
+							AccountType:  $scope.user.type,
+						   displayName :  $scope.user.displayName
+					});
+				$scope.user.Provider = "email";
+				   adduser(firebaseUser.uid);
+        }).catch(function(error) {
+          $scope.error = error;
+			if(JSON.stringify($scope.error.message).includes("password"))
+				console.log($scope.error)
+				//Error for password
+		else 
+				//Error for email
+			console.log($scope.error)
+        });
+    
+			
+		}
+		
+	}
+	
+	function adduser (UID){
+		
+		if($scope.user.type == 'Artist'){			
+			
+			var userref = firebase.database().ref("/Artist/"+UID)
+			
+			.set({
+					displayName:$scope.user.displayName,
+					birthday:$scope.user.birthday,
+					Catgories:$scope.user.Catgories,
+					mail:$scope.user.email,
+					UID:UID,
+					Provider:$scope.user.Provider,
+					Gender:$scope.user.Gender
+				})
+				.then(function(){
+					//TODO ALERT THE USER
+					console.log("user Added");				 	
+				})
+				.catch(function(error){
+					//TODO ALERT THE USER
+					console.log("error in adding to firebase");		 
+				})		
+	}	
+}
+	
+	// when the user clicks it add the category into the array if its already exist it means that the user unchecked it so it will be removed from the array
+	$scope.addCategory = function(Category){	
+		var index = $scope.user.Catgories.indexOf(Category);
+		if(index == -1){
+			$scope.user.Catgories.push(Category);
+		}
+		else {
+			$scope.user.Catgories.splice(index,1);
+		}
+			
+	}
 })
 
 

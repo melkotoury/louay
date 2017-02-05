@@ -13,7 +13,7 @@ angular.module('starter.services', ["firebase"])
 					displayName:"",
 					birthday:"",
 					type:"",
-					Catgories:{},
+					Catgories:[],
 					Height:"",
 					Weight:"",
 					Bust:"",
@@ -32,7 +32,9 @@ angular.module('starter.services', ["firebase"])
 				  	PhotoURI:"",
 				  	UID:"",
 				  	Provider:"",
-				  Gender:""};
+				  	Gender:"",
+					pw1:"",
+					pw2:""};
 	
 	return user;
 });
