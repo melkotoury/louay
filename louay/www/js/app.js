@@ -99,6 +99,22 @@ $stateProvider
         controller: 'signupCtrl'
       }
     }
+  }).state('app.signup2', {
+    url: '/signup',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signup2.html',
+        controller: 'signupCtrl'
+      }
+    }
+  }).state('app.signup3', {
+    url: '/signup',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signup3.html',
+        controller: 'signupCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/home');
