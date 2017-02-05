@@ -31,7 +31,8 @@ angular.module('starter.services', ["firebase"])
 				  	Piercings:"",
 				  	PhotoURI:"",
 				  	UID:"",
-				  	Provider:""};
+				  	Provider:"",
+				  Gender:""};
 	
 	return user;
 });

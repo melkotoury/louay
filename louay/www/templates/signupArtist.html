@@ -1,17 +1,30 @@
 <ion-view view-title="categories">
 	<ion-content>
-		<ion-list>
-			<ion-checkbox >Art director</ion-checkbox>
-			<ion-checkbox >Fashion stylist</ion-checkbox>
-			<ion-checkbox >Food stylist</ion-checkbox>
-			<ion-checkbox >Makeup artist </ion-checkbox>
-			<ion-checkbox >Nail artist</ion-checkbox>
-			<ion-checkbox >Model</ion-checkbox>
-			<ion-checkbox >Video editor </ion-checkbox>
-			<ion-checkbox >Graphic designers</ion-checkbox>
-			<ion-checkbox >Animators </ion-checkbox>
-			<ion-checkbox >3D designers </ion-checkbox>
-			<ion-checkbox >Film director </ion-checkbox>
+		<ion-list ng-if="user.type == 'Artist' ">
+			<ion-checkbox>Art director</ion-checkbox>
+			<ion-checkbox>Fashion stylist</ion-checkbox>
+			<ion-checkbox>Food stylist</ion-checkbox>
+			<ion-checkbox>Makeup artist </ion-checkbox>
+			<ion-checkbox>Nail artist</ion-checkbox>
+			<ion-checkbox>Model</ion-checkbox>
+			<ion-checkbox>Video editor </ion-checkbox>
+			<ion-checkbox>Graphic designers</ion-checkbox>
+			<ion-checkbox>Animators </ion-checkbox>
+			<ion-checkbox>3D designers </ion-checkbox>
+			<ion-checkbox>Film director </ion-checkbox>
+		</ion-list>
+		<ion-list ng-if="user.type == 'Client' ">
+			<ion-checkbox>Company</ion-checkbox>
+			<ion-checkbox>Brands</ion-checkbox>
+			<ion-checkbox>Shops</ion-checkbox>
+			<ion-checkbox>Fashion designers </ion-checkbox>
+			<ion-checkbox>Jewelry designers </ion-checkbox>
+			<ion-checkbox>Product designers </ion-checkbox>
+			<ion-checkbox>Magazines </ion-checkbox>
+			<ion-checkbox>Advertising agency</ion-checkbox>
+			<ion-checkbox>PR agency </ion-checkbox>
+			<ion-checkbox>Social media agencies </ion-checkbox>
+			<ion-checkbox>Modeling Agencies </ion-checkbox>
 		</ion-list>
 	</ion-content>
 </ion-view>

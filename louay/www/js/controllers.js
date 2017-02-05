@@ -132,8 +132,9 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaImagePicker) {
-  
+.controller('signupCtrl', function($scope,$cordovaImagePicker,userData) {
+  $scope.user = userData;
+	console.log( $scope.user);
 })
 
 

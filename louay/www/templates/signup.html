@@ -11,11 +11,11 @@
 
   <label class="item item-input item-stacked-label">
     <span class="input-label">Full Name</span>
-    <input type="text" placeholder="John">
+    <input ng-model="user.displayName" type="text" placeholder="John">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Email</span>
-    <input type="email" placeholder="john@suhr.com">
+    <input ng-model="user.email" type="email" placeholder="john@suhr.com">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Password</span>
@@ -27,15 +27,15 @@
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Birthday</span>
-    <input type="date">
+    <input ng-model="user.birthday" type="date">
   </label>
     <label class="item item-input item-select">
     <div class="input-label">
       Gender
     </div>
-    <select>
-      <option>Male</option>
-      <option>Female</option>
+    <select ng-model="user.Gender">
+      <option value="Male">Male</option>
+      <option value="Female" >Female</option>
     </select>
   </label>
 
