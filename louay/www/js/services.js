@@ -5,4 +5,11 @@ angular.module('starter.services', ["firebase"])
   function($firebaseAuth) {
     return $firebaseAuth();
   }
-]);
+])
+
+.factory("userData" , function(){
+	
+	var user = {email:"", displayName:"",birthday:"",};
+	
+	
+});

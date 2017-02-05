@@ -100,18 +100,18 @@ $stateProvider
       }
     }
   }).state('app.signup2', {
-    url: '/signup',
+    url: '/signup2',
     views: {
       'menuContent': {
         templateUrl: 'templates/signup2.html',
         controller: 'signupCtrl'
       }
     }
-  }).state('app.signup3', {
-    url: '/signup',
+  }).state('app.signupArtist', {
+    url: '/signupArtist',
     views: {
       'menuContent': {
-        templateUrl: 'templates/signup3.html',
+        templateUrl: 'templates/signupArtist.html',
         controller: 'signupCtrl'
       }
     }

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state) {
 
@@ -132,7 +132,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope) {
+.controller('signupCtrl', function($scope,$cordovaImagePicker) {
   
 })
 
