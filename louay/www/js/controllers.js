@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ngCordova'])
 })
 
 
-.controller('loginCtrl', function($scope,Auth,$http, $state) {
+.controller('loginCtrl', function($scope,Auth,$http, $state,userData) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -56,6 +56,20 @@ angular.module('starter.controllers', ['ngCordova'])
 
 		Auth.$signInWithPopup(provider).then(function(firebaseUser) {
 		 console.log("Signed in as:", firebaseUser);
+			//get its data from users if null
+			var userref = firebase.database().ref("/users/"+firebaseUser.uid)
+			.once('value').then(function(snapshot) {
+          
+				if(!snapshot.val()){
+					userData.Provider = "facebook";
+					userData.UID = firebaseUser.uid;
+					userData.displayName = firebaseUser.displayName;
+					userData.email   = firebaseUser.email;
+					
+					 $state.go("app.signup");
+				}
+				
+			})
 			 $state.go("app.home");
 			//TODO Route after that the user to the rest of the fields in the signup process
 		
@@ -132,7 +146,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state,$firebaseArray) {
+.controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state) {
   $scope.user = userData;
 	console.log( $scope.user);
 	
@@ -229,20 +243,4 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-    /* // Create a new user
-      Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
-        .then(function(firebaseUser) {
-          	$scope.message = "User created with uid: " + firebaseUser.uid;
-				console.log(message);
-        }).catch(function(error) {
-          $scope.error = error;
-			if(JSON.stringify($scope.error.message).includes("password"))
-				
-				$scope.$errorMessage.password=$scope.error.message;
-		else 
-				$scope.$errorMessage.email = $scope.error.message;
-        });
-    
-
-	  */
-		
+  
