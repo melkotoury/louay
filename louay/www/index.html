@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+   <meta "content_security_policy":"script-src 'self' https://apis.google.com https://www.googleapis.com https://securetoken.googleapis.com; object-src 'self'" , "permissions": [ "https://*/*", "activeTab" ] >
+
+
     <title></title>
 
     <link rel="manifest" href="manifest.json">
@@ -34,6 +37,7 @@
     <script src="cordova.js"></script>
     
     <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+    <script src="lib/ng-cordova-oauth/dist/ng-cordova-oauth.min.js"></script>
 	 <script>
 	  // Initialize Firebase
 	   var config = {

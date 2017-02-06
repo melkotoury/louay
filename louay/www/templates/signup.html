@@ -4,11 +4,11 @@
  <a class="item item-thumbnail-left" href="#">
       <img ng-src="{{user.PhotoURI}}">
       <h2>Display picture</h2>
-      <button class="button button-positive button-small"> 
+      <button ng-click="addImage()" class="button button-positive button-small"> 
       <i class="icon ion-android-upload"></i> Upload Picture
     </button>
     </a>
-
+{{res}}
   <label class="item item-input item-stacked-label">
     <span class="input-label">Full Name</span>
     <input ng-model="user.displayName" type="text" placeholder="John">

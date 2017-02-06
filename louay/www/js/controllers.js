@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova'])
+angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state) {
 
@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ngCordova'])
 })
 
 
-.controller('loginCtrl', function($scope,Auth,$http, $state,userData) {
+.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -48,40 +48,34 @@ angular.module('starter.controllers', ['ngCordova'])
 	};
 	
 	$scope.facebookLogin = function(){
-		//preparing the firebase auth provider
-		var provider = new firebase.auth.FacebookAuthProvider();
-	   //Setting the scope to get the public profile data with the user
-		provider.addScope('public_profile');
-      //**Note** asking for more user data will require a review of the app
-
-		Auth.$signInWithPopup(provider).then(function(firebaseUser) {
-		 console.log("Signed in as:", firebaseUser);
-			//get its data from users if null
-			var userref = firebase.database().ref("/users/"+firebaseUser.user.uid)
-			 
-			.once('value').then(function(snapshot) {
-          console.log("snapshot : "+ snapshot.val() )
-				if(!snapshot.val()){
+       $cordovaOauth.facebook("119327321914256", ["email", "public_profile"], {redirect_uri: "http://localhost/callback"}).then(function(result) {
+          var credential = firebase.auth.FacebookAuthProvider.credential(result.access_token);
+			 firebase.auth().signInWithCredential(credential).
+			 then(function(firebaseUser){
+				 console.log(firebaseUser);
+				 	var userref = firebase.database().ref("/users/"+firebaseUser.uid)
+					
+					.once('value').then(function(snapshot) {
+				  
+					if(!snapshot.val()){
 					userData.Provider = "facebook";
-					userData.UID = firebaseUser.user.uid;
-					userData.displayName = firebaseUser.user.displayName;
-					userData.email   = firebaseUser.user.email;
-					userData.PhotoURI = firebaseUser.user.photoURL;
+					userData.UID = firebaseUser.uid;
+					userData.displayName = firebaseUser.displayName;
+					userData.email   = firebaseUser.email;
+					userData.PhotoURI = firebaseUser.photoURL;
 					 $state.go("app.signup");
 				}
 				else 
 						 $state.go("app.home");
-				
-			})
+			 }).catch(function(error){
+				  console.log(error);
+			 })
+           
+        }) 
+   
 		
-			
-		
-	  }).catch(function(error) {
-	    //TODO show error to the user using a pop up	
-		 console.log("Authentication failed:", error);
-	  });
+	})
 	}
-	
 	$scope.instagramLogin = function(){
 	/*To auth in the server needed for the first time only it adds the instgram acess tokken to the DB 
 	  which will allow acess to the Instgram API
@@ -168,7 +162,24 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 .controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state) {
  
 	$scope.user = userData;
-	
+	var options = {
+   maximumImagesCount: 1,
+   width: 800,
+   height: 800,
+   quality: 80
+  };
+	$scope.addImage = function() {
+	 $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+		 $scope.res = results;
+      for (var i = 0; i < results.length; i++) {
+        console.log('Image URI: ' + results[i]);
+      }
+    }, function(error) {
+      // error getting photos
+    });
+		
+	}
 	/**
   * @desc Allow user to sign up using social account 
   *  the user is already signed up but this adds its information to the firebase
