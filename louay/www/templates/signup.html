@@ -2,7 +2,7 @@
   <ion-content>
 <div class="list">
  <a class="item item-thumbnail-left" href="#">
-      <img src="https://s-media-cache-ak0.pinimg.com/originals/f0/03/44/f00344d904062ce92b4b3b146060d874.png">
+      <img ng-src="{{user.PhotoURI}}">
       <h2>Display picture</h2>
       <button class="button button-positive button-small"> 
       <i class="icon ion-android-upload"></i> Upload Picture
@@ -17,11 +17,11 @@
     <span class="input-label">Email</span>
     <input ng-model="user.email" type="email" placeholder="john@suhr.com">
   </label>
-  <label class="item item-input item-stacked-label">
+  <label ng-if="!user.Provider" class="item item-input item-stacked-label">
     <span class="input-label">Password</span>
     <input ng-model="user.pw1" type="password">
   </label>
-  <label class="item item-input item-stacked-label">
+  <label ng-if="!user.Provider" class="item item-input item-stacked-label">
     <span class="input-label">Confirm Password</span>
     <input ng-model="user.pw2" type="password">
   </label>

@@ -59,19 +59,21 @@ angular.module('starter.controllers', ['ngCordova'])
 			//get its data from users if null
 			var userref = firebase.database().ref("/users/"+firebaseUser.uid)
 			.once('value').then(function(snapshot) {
-          
+          console.log(firebaseUser.displayName);
 				if(!snapshot.val()){
 					userData.Provider = "facebook";
-					userData.UID = firebaseUser.uid;
-					userData.displayName = firebaseUser.displayName;
-					userData.email   = firebaseUser.email;
-					
+					userData.UID = firebaseUser.user.uid;
+					userData.displayName = firebaseUser.user.displayName;
+					userData.email   = firebaseUser.user.email;
+					userData.PhotoURI = firebaseUser.user.photoURL;
 					 $state.go("app.signup");
 				}
+				else 
+						 $state.go("app.home");
 				
 			})
-			 $state.go("app.home");
-			//TODO Route after that the user to the rest of the fields in the signup process
+		
+			
 		
 	  }).catch(function(error) {
 	    //TODO show error to the user using a pop up	
@@ -90,8 +92,22 @@ angular.module('starter.controllers', ['ngCordova'])
     
 			.then(function(response) {
 			console.log(response.data);	
-			firebase.auth().signInWithCustomToken(response.data).then(function(firebaseUser) { 
- 						$state.go("app.home");
+			firebase.auth().signInWithCustomToken(response.data).then(function(firebaseUser) {
+				  console.log(firebaseUser);
+ 					var userref = firebase.database().ref("/users/"+firebaseUser.uid)
+			.once('value').then(function(snapshot) {
+				if(!snapshot.val()){
+					userData.Provider = "instagram";
+					userData.UID = firebaseUser.uid;
+					userData.displayName = firebaseUser.displayName;
+					userData.email   = firebaseUser.email;
+					userData.PhotoURI = firebaseUser.photoURL;
+					 $state.go("app.signup");
+				}
+				else 
+						 $state.go("app.home");
+				
+			})
 			}).catch(function(error) {
 				//TODO show error to the user using a pop up	
 				console.log("Authentication failed:", error);
@@ -147,39 +163,63 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 .controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state) {
-  $scope.user = userData;
-	console.log( $scope.user);
+ 
+	$scope.user = userData;
 	
-
-	
-	$scope.emailSignup = function(){
-	
-		if($scope.user.pw1 === $scope.user.pw1) {
-			Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.pw1)
-        .then(function(firebaseUser) {
-				 	var userref = firebase.database().ref("/users/"+firebaseUser.uid).set({
-							AccountType:  $scope.user.type,
-						   displayName :  $scope.user.displayName
-					});
-				$scope.user.Provider = "email";
-				   adduser(firebaseUser.uid);
-        }).catch(function(error) {
-          $scope.error = error;
-			if(JSON.stringify($scope.error.message).includes("password"))
-				console.log($scope.error)
-				//Error for password
-		else 
-				//Error for email
-			console.log($scope.error)
-        });
-    
-			
-		}
+	/**
+  * @desc Allow user to sign up using social account 
+  *  the user is already signed up but this adds its information to the firebase
+  */
+	$scope.socialSignup = function(){
 		
-	}
+		var userref = firebase.database().ref("/users/"+$scope.user.UID).set({		
+			AccountType:  $scope.user.type,			  
+			displayName :  $scope.user.displayName		
+		});
+		
+		adduser($scope.user.UID);	
 	
+	} 
+
+/**
+  * @desc Allow user to sign up using email and password  
+  *  the user is already signed up but this adds its information to the firebase
+  */
+	$scope.emailSignup = function(){
+	  //check if the user confirmed the password
+		
+		if($scope.user.pw1 === $scope.user.pw1) {
+		  //Create the user
+			Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.pw1)
+				.then(function(firebaseUser) {
+				//add the user data to the database
+				var userref = firebase.database().ref("/users/"+firebaseUser.uid).set({
+					AccountType:  $scope.user.type,
+					displayName :  $scope.user.displayName
+				});
+				$scope.user.Provider = "email";
+				//call add user
+				adduser(firebaseUser.uid);
+			}).catch(function(error) {
+				$scope.error = error;
+				if(JSON.stringify($scope.error.message).includes("password"))
+					console.log($scope.error)
+					//Error for password
+					else 
+				//Error for email
+						console.log($scope.error)
+   
+						
+						});
+		}	
+	}
+	/**
+  * @desc add the user data to its proper node 
+  *  @prams UID - user ID
+  */
 	function adduser (UID){
 		
+		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
 			
 			var userref = firebase.database().ref("/Artist/"+UID)
@@ -195,13 +235,16 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				})
 				.then(function(){
 					//TODO ALERT THE USER
-					console.log("user Added");				 	
+					console.log("user Added");	
+					return "Sign Up Successful";
 				})
 				.catch(function(error){
 					//TODO ALERT THE USER
 					console.log("error in adding to firebase");		 
+					return error;		 
 				})		
 	}	
+		//if the user is client
 		else if (($scope.user.type == 'Client') ){
 					
 			
@@ -217,15 +260,15 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					Gender:$scope.user.Gender
 				})
 				.then(function(){
-					//TODO ALERT THE USER
-					console.log("user Added");				 	
+					return "Sign Up Successful";
 				})
 				.catch(function(error){
 					//TODO ALERT THE USER
 					console.log("error in adding to firebase");		 
+					return error;
 				})		
 			
-					}
+			}
 }
 	
 	// when the user clicks it add the category into the array if its already exist it means that the user unchecked it so it will be removed from the array
