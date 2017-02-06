@@ -57,9 +57,10 @@ angular.module('starter.controllers', ['ngCordova'])
 		Auth.$signInWithPopup(provider).then(function(firebaseUser) {
 		 console.log("Signed in as:", firebaseUser);
 			//get its data from users if null
-			var userref = firebase.database().ref("/users/"+firebaseUser.uid)
+			var userref = firebase.database().ref("/users/"+firebaseUser.user.uid)
+			 
 			.once('value').then(function(snapshot) {
-          console.log(firebaseUser.displayName);
+          console.log("snapshot : "+ snapshot.val() )
 				if(!snapshot.val()){
 					userData.Provider = "facebook";
 					userData.UID = firebaseUser.user.uid;
@@ -95,8 +96,10 @@ angular.module('starter.controllers', ['ngCordova'])
 			firebase.auth().signInWithCustomToken(response.data).then(function(firebaseUser) {
 				  console.log(firebaseUser);
  					var userref = firebase.database().ref("/users/"+firebaseUser.uid)
-			.once('value').then(function(snapshot) {
-				if(!snapshot.val()){
+		
+					.once('value').then(function(snapshot) {
+				  
+					if(!snapshot.val()){
 					userData.Provider = "instagram";
 					userData.UID = firebaseUser.uid;
 					userData.displayName = firebaseUser.displayName;
@@ -236,6 +239,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				.then(function(){
 					//TODO ALERT THE USER
 					console.log("user Added");	
+				   $state.go("app.home");
 					return "Sign Up Successful";
 				})
 				.catch(function(error){
@@ -261,6 +265,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				})
 				.then(function(){
 					return "Sign Up Successful";
+				  $state.go("app.home");
 				})
 				.catch(function(error){
 					//TODO ALERT THE USER
