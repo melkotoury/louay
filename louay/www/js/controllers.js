@@ -174,42 +174,102 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$cordovaFile) {
+.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$ionicLoading,$ionicPopup) {
  
 	$scope.user = userData;
+	
+	//Options for the camera plugin
 	var options = {
-      destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-    };
+		destinationType: Camera.DestinationType.FILE_URI,   
+		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+	};
 
 	
+  /**
+  * @desc open the gallery to pick a picture
+  * 
+  */
 	
-	
+
 	$scope.addImage = function() {
-	  $cordovaCamera.getPicture(options).then(function(imageURI) { 
-    window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
-      fileEntry.file(function (file) {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-          // This blob object can be saved to firebase
-          var blob = new Blob([this.result], { type: "image/jpeg" });                  
-			  	$scope.user.PhotoURI = blob;
+		//call the plugin
+	  $cordovaCamera.getPicture(options).then(function(imageURI) {
+		 //set the picture to display 
+		  $scope.image = imageURI;
+        //creting a file enrty with the correct path
+		  window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
+     
+			  fileEntry.file(function (file) {
+              //read the file data
+				  var reader = new FileReader();
+      
+				  reader.onloadend = function () {
+        
+					  // This blob object can be saved to firebase
+         
+					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
+			       //save it to the PhotoURI
+					  $scope.user.PhotoURI = blob;
 
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    }, function (error) {
-      console.log(error)
-    });
-  });
+      
+				  };
+      
+				  reader.readAsArrayBuffer(file);
+     
+			  });
+   
+		  }, function (error) {
+	
+			  $ionicLoading.hide()
+    
+			  console.log(error)
+   
+		  });
+ 
+	  });
 		
+	
 	}
 	/**
-  * @desc Allow user to sign up using social account 
-  *  the user is already signed up but this adds its information to the firebase
+  * 
+  
+  @desc they act as a type of form validation 
+  * 
   */
-	$scope.socialSignup = function(){
+	
+	
+	$scope.ToSignup2 = function(){
 		
+		if($scope.user.displayName && $scope.user.email)
+			$state.go("app.signup2")
+			else
+				$ionicPopup.confirm({	
+					title: ' Signup error',
+					template: "please fill in all the required fields",
+					buttons:[{text: 'Ok'}]
+				});
+	}
+	
+	
+	$scope.ToSignup3 = function(){	
+		if($scope.user.type)
+			$state.go("app.signupArtist")
+			else
+				$ionicPopup.confirm({	
+					title: ' Signup error',
+					template: "please fill in all the required fields",
+					buttons:[{text: 'Ok'}]
+				});
+	}
+	
+	
+	//Allow signin using social account 
+	
+	$scope.socialSignup = function(){
+	
+		$ionicLoading.show({
+      template: 'Loading...',
+    })
 		var userref = firebase.database().ref("/users/"+$scope.user.UID).set({		
 			AccountType:  $scope.user.type,			  
 			displayName :  $scope.user.displayName		
@@ -225,7 +285,9 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   */
 	$scope.emailSignup = function(){
 	  //check if the user confirmed the password
-		
+		$ionicLoading.show({
+      template: 'Loading...',
+    })
 		if($scope.user.pw1 === $scope.user.pw1) {
 		  //Create the user
 			Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.pw1)
@@ -239,14 +301,12 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				//call add user
 				adduser(firebaseUser.uid);
 			}).catch(function(error) {
-				$scope.error = error;
-				if(JSON.stringify($scope.error.message).includes("password"))
-					console.log($scope.error)
-					//Error for password
-					else 
-				//Error for email
-						console.log($scope.error)
-   
+				$ionicPopup.confirm({
+					  title: ' Signup error',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
+     $ionicLoading.hide()
 						
 						});
 		}	
@@ -256,11 +316,12 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
+		if($scope.image){
 		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
 		  storageRef.put($scope.user.PhotoURI).then(function(snapshot) {
 			  	console.log('Uploaded a blob or file!');
 		  });
-
+		}
 		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
 			
@@ -273,24 +334,60 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					mail:$scope.user.email,
 					UID:UID,
 					Provider:$scope.user.Provider,
-					Gender:$scope.user.Gender
+					Gender:$scope.user.Gender,
+					Height:$scope.user.Height,
+					Weight:$scope.user.Weight,
+					Bust:$scope.user.Bust,
+					Waist:$scope.user.Waist,
+				   Hips:$scope.user.Hips,
+				   Ethnicity:$scope.user.Ethnicity,
+				   Cup:$scope.user.Cup,
+				   Dress:$scope.user.Dress,
+				   Shoe:$scope.user.Shoe,
+				   HairColor:$scope.user.HairColor,
+				   HairLength:$scope.user.HairLength,
+				   EyeColor:$scope.user.EyeColor,
+				  	Shootnudes:$scope.user.Shootnudes,
+				  	Tattoos:$scope.user.Tattoos
 				})
 				.then(function(){
-					//TODO ALERT THE USER
-					console.log("user Added");	
-				   $state.go("app.home");
-					return "Sign Up Successful";
+						
+					$ionicPopup.confirm({
+						title: "Sign up",
+						template: "user created",
+						buttons:[{text: 'Ok'}]
+					
+					});
+				
+					$ionicLoading.hide()
+				 
+					$state.go("app.home");
+				    
+				
 				})
 				.catch(function(error){
-					//TODO ALERT THE USER
+					
+					$ionicLoading.hide()
+					$ionicPopup.confirm({
+					
+						title: ' Signup error',
+					  
+						template: error.message,
+						
+						buttons:[{text: 'Ok'}]
+				
+					});
+					
 					console.log("error in adding to firebase");		 
+					
 					return error;		 
+			
 				})		
-	}	
+	
+			}	
 		//if the user is client
 		else if (($scope.user.type == 'Client') ){
 					
-			
 		   var userref = firebase.database().ref("/Client/"+UID)
 				
 			.set({
@@ -303,11 +400,22 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					Gender:$scope.user.Gender
 				})
 				.then(function(){
-					return "Sign Up Successful";
+				$ionicPopup.confirm({
+					  title: "Sign up",
+					  template: "user created",
+						buttons:[{text: 'Ok'}]
+					});
 				  $state.go("app.home");
 				})
 				.catch(function(error){
 					//TODO ALERT THE USER
+					$ionicLoading.hide()
+				
+					$ionicPopup.confirm({
+					  title: ' Signup error',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
 					console.log("error in adding to firebase");		 
 					return error;
 				})		
@@ -326,7 +434,8 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		}
 		
 		if($scope.user.Catgories.indexOf("Model")!=-1)
-		$scope.isModel = true;
+		
+			$scope.isModel = true;
 		else 
 			$scope.isModel = false;
 	}

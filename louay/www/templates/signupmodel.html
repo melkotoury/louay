@@ -1,6 +1,52 @@
 <ion-view view-title="Model Data">
 	<ion-content>
-	
+	<label class="item item-input item-stacked-label">
+    <span class="input-label">Height</span>
+    <input ng-model="user.Height" type="text" >
+  </label><label class="item item-input item-stacked-label">
+    <span class="input-label">Weight</span>
+    <input ng-model="user.Weight" type="text" >
+  </label><label class="item item-input item-stacked-label">
+    <span class="input-label">Bust</span>
+    <input ng-model="user.Bust" type="text" >
+  </label><label class="item item-input item-stacked-label">
+    <span class="input-label">Waist</span>
+    <input ng-model="user.Waist" type="text" >
+  </label><label class="item item-input item-stacked-label">
+    <span class="input-label">Hips</span>
+    <input ng-model="user.Hips" type="text" >
+  </label><label class="item item-input item-stacked-label">
+    <span class="input-label">Ethnicity</span>
+    <input ng-model="user.Ethnicity" type="text">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Cup</span>
+    <input ng-model="user.Cup" type="text" >
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Dress</span>
+    <input ng-model="user.Dress" type="text" >
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">HairColor</span>
+    <input ng-model="user.HairColor" type="text" >
+  </label>
+   <label class="item item-input item-stacked-label">
+    <span class="input-label">HairLength</span>
+    <input ng-model="user.HairLength" type="text" >
+  </label>
+   <label class="item item-input item-stacked-label">
+    <span class="input-label">EyeColor</span>
+    <input ng-model="user.EyeColor" type="text" >
+  </label>
+   <label class="item item-input item-stacked-label">
+    <span class="input-label">Shootnudes</span>
+    <input ng-model="user.Shootnudes" type="text" >
+  </label>
+   <label class="item item-input item-stacked-label">
+    <span class="input-label">Tattoos</span>
+    <input ng-model="user.Tattoos" type="text" >
+  </label>
 	
 		<a class="button button-block button-positive" ng-if="!user.Provider" ng-click="emailSignup()">   Signup  <i class="icon ion-arrow-right-a"></i></a> 
 		<a class="button button-block button-positive" ng-if="user.Provider" ng-click="socialSignup()">   Signup  <i class="icon ion-arrow-right-a"></i></a> 

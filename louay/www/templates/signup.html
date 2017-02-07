@@ -2,13 +2,13 @@
   <ion-content>
 <div class="list">
  <a class="item item-thumbnail-left" href="#">
-      <img ng-src="{{user.PhotoURI}}">
+      <img ng-src="{{image}}">
       <h2>Display picture</h2>
       <button ng-click="addImage()" class="button button-positive button-small"> 
       <i class="icon ion-android-upload"></i> Upload Picture
     </button>
     </a>
-{{res}}
+
   <label class="item item-input item-stacked-label">
     <span class="input-label">Full Name</span>
     <input ng-model="user.displayName" type="text" placeholder="John">
@@ -40,7 +40,7 @@
   </label>
 
 	  </div>  
-<a class="button button-block button-positive" href="#/app/signup2">   Next 1/3  <i class="icon ion-arrow-right-a"></i></a>
+<a class="button button-block button-positive" ng-click="ToSignup2()" >   Next 1/3  <i class="icon ion-arrow-right-a"></i></a>
 
 
 	  
