@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 })
 
 
-.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth) {
+.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -27,32 +27,38 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	
 	$scope.emailLogin = function(){
 	//$createUserWithEmailAndPassword
-	
+	$ionicLoading.show({
+      template: 'Loading...',
+    })
 		Auth.$signInWithEmailAndPassword($scope.user.email, $scope.user.password)
 			.then(function(firebaseUser) {
-           $state.go("app.home");
+          $ionicLoading.hide()
+			$state.go("app.home");
 			//TODO when user is logged in
 		
 		}).catch(function(error) {
-      
-			$scope.error = error;
-			//check if the error is realted to the password if correct set $errorMessage.password to it
-			if(JSON.stringify($scope.error.message).search("password")!=-1)
-	
-				$scope.errorMessage.password=$scope.error.message;
-	      //case if the error is realted to the email
-			else 
-			$scope.errorMessage.email = $scope.error.message;
-       
+			 		$ionicLoading.hide()
+					$ionicPopup.confirm({
+					  title: 'Login Erro',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
 		});
 	};
 	
 	$scope.facebookLogin = function(){
+			$ionicLoading.show({
+				template: 'Loading...',
+			})
        $cordovaOauth.facebook("119327321914256", ["email", "public_profile"], {redirect_uri: "http://localhost/callback"}).then(function(result) {
           var credential = firebase.auth.FacebookAuthProvider.credential(result.access_token);
 			 firebase.auth().signInWithCredential(credential).
 			 then(function(firebaseUser){
 				 console.log(firebaseUser);
+				 $ionicLoading.hide()
+				 $ionicLoading.show({
+				template: 'Loading...',
+			})
 				 	var userref = firebase.database().ref("/users/"+firebaseUser.uid)
 					
 					.once('value').then(function(snapshot) {
@@ -63,12 +69,21 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.displayName = firebaseUser.displayName;
 					userData.email   = firebaseUser.email;
 					userData.PhotoURI = firebaseUser.photoURL;
+						 $ionicLoading.hide()
 					 $state.go("app.signup");
 				}
-				else 
-						 $state.go("app.home");
+				else {   
+					$ionicLoading.hide()
+						 
+					$state.go("app.home");	
+				}
 			 }).catch(function(error){
-				  console.log(error);
+				 $ionicLoading.hide()
+					$ionicPopup.confirm({
+					  title: 'Login Erro',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
 			 })
            
         }) 
@@ -159,22 +174,25 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaImagePicker,userData,Auth,$state) {
+.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$firebaseStorage) {
  
 	$scope.user = userData;
 	var options = {
-   maximumImagesCount: 1,
-   width: 800,
-   height: 800,
-   quality: 80
-  };
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+    };
+
+	
+	
+	
 	$scope.addImage = function() {
-	 $cordovaImagePicker.getPictures(options)
-    .then(function (results) {
-		 $scope.res = results;
-      for (var i = 0; i < results.length; i++) {
-        console.log('Image URI: ' + results[i]);
-      }
+	  $cordovaCamera.getPicture(options)
+    .then(function (imageData) {
+		  console.log(imageData)
+		 $scope.user.PhotoURI = imageData;
+		 
+
+     
     }, function(error) {
       // error getting photos
     });
@@ -232,7 +250,11 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
-		
+		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".png");
+		  $firebaseStorage.put($scope.user.PhotoURI).then(function(snapshot) {
+			  	console.log('Uploaded a blob or file!');
+		  });
+
 		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
 			
@@ -296,7 +318,11 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		else {
 			$scope.user.Catgories.splice(index,1);
 		}
-			
+		
+		if($scope.user.Catgories.indexOf("Model")!=-1)
+		$scope.isModel = true;
+		else 
+			$scope.isModel = false;
 	}
 })
 

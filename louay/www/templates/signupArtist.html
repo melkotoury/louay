@@ -25,8 +25,11 @@
 			<ion-checkbox ng-click="addCategory('PR agency')">PR agency </ion-checkbox>
 			<ion-checkbox ng-click="addCategory('Social media agencies')">Social media agencies </ion-checkbox>
 			<ion-checkbox ng-click="addCategory('Modeling Agencies')">Modeling Agencies </ion-checkbox>
-		</ion-list> 
+		</ion-list>
+		<div ng-if="!isModel">
 		<a class="button button-block button-positive" ng-if="!user.Provider" ng-click="emailSignup()">   Signup  <i class="icon ion-arrow-right-a"></i></a> 
 		<a class="button button-block button-positive" ng-if="user.Provider" ng-click="socialSignup()">   Signup  <i class="icon ion-arrow-right-a"></i></a> 
+		</div> 
+			<a class="button button-block button-positive" ng-if="isModel"  href="#/app/signupmodel">   Next  <i class="icon ion-arrow-right-a"></i></a> 
 		</ion-content>
 </ion-view>

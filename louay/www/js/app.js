@@ -115,6 +115,14 @@ $stateProvider
         controller: 'signupCtrl'
       }
     }
+  }).state('app.signupmodel', {
+    url: '/signupmodel',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signupmodel.html',
+        controller: 'signupCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/home');
