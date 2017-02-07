@@ -174,7 +174,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$firebaseStorage) {
+.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$cordovaFile) {
  
 	$scope.user = userData;
 	var options = {
@@ -186,16 +186,22 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 	
 	$scope.addImage = function() {
-	  $cordovaCamera.getPicture(options)
-    .then(function (imageData) {
-		  console.log(imageData)
-		 $scope.user.PhotoURI = imageData;
-		 
+	  $cordovaCamera.getPicture(options).then(function(imageURI) { 
+    window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
+      fileEntry.file(function (file) {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          // This blob object can be saved to firebase
+          var blob = new Blob([this.result], { type: "image/jpeg" });                  
+			  	$scope.user.PhotoURI = blob;
 
-     
-    }, function(error) {
-      // error getting photos
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    }, function (error) {
+      console.log(error)
     });
+  });
 		
 	}
 	/**
@@ -250,8 +256,8 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
-		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".png");
-		  $firebaseStorage.put($scope.user.PhotoURI).then(function(snapshot) {
+		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
+		  storageRef.put($scope.user.PhotoURI).then(function(snapshot) {
 			  	console.log('Uploaded a blob or file!');
 		  });
 
@@ -324,6 +330,10 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		else 
 			$scope.isModel = false;
 	}
+	
+	
+	
+	
 })
 
 
