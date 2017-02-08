@@ -68,8 +68,8 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.UID = firebaseUser.uid;
 					userData.displayName = firebaseUser.displayName;
 					userData.email   = firebaseUser.email;
-					userData.PhotoURI = firebaseUser.photoURL;
-						 $ionicLoading.hide()
+					userData.SPP = firebaseUser.photoURL;
+					$ionicLoading.hide();
 					 $state.go("app.signup");
 				}
 				else {   
@@ -189,7 +189,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   * @desc open the gallery to pick a picture
   * 
   */
-  $scope.image = $scope.user.PhotoURI;
+  $scope.image = $scope.user.SPP;
 
 	$scope.addImage = function() {
 		//call the plugin
@@ -359,7 +359,8 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				   EyeColor:$scope.user.EyeColor,
 				  	Shootnudes:$scope.user.Shootnudes,
 				  	Tattoos:$scope.user.Tattoos,
-				   ProfilePicture :$scope.user.pp
+				   ProfilePicture :$scope.user.pp,
+				   SProfilePicture : $scope.user.SPP
 				})
 				.then(function(){
 						
@@ -409,7 +410,8 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					UID:UID,
 					Provider:$scope.user.Provider,
 					Gender:$scope.user.Gender,
-				   ProfilePicture :$scope.user.pp
+				   ProfilePicture :$scope.user.pp,
+					SProfilePicture : $scope.user.SPP
 				})
 				.then(function(){
 				$ionicLoading.hide();

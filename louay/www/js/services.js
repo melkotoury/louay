@@ -35,7 +35,8 @@ angular.module('starter.services', ["firebase"])
 				  	Gender:"",
 					pw1:"",
 					pw2:"",
-				  pp:""};
+				  pp:"",
+				  SPP:""};
 	
 	return user;
 });
