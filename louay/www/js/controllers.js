@@ -270,10 +270,6 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		$ionicLoading.show({
       template: 'Loading...',
     })
-		var userref = firebase.database().ref("/users/"+$scope.user.UID).set({		
-			AccountType:  $scope.user.type,			  
-			displayName :  $scope.user.displayName		
-		});
 		
 		adduser($scope.user.UID);	
 	
@@ -293,10 +289,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.pw1)
 				.then(function(firebaseUser) {
 				//add the user data to the database
-				var userref = firebase.database().ref("/users/"+firebaseUser.uid).set({
-					AccountType:  $scope.user.type,
-					displayName :  $scope.user.displayName
-				});
+				
 				$scope.user.Provider = "email";
 				//call add user
 				adduser(firebaseUser.uid);
@@ -316,12 +309,29 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
-		if($scope.image){
+	
 		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
-		  storageRef.put($scope.user.PhotoURI).then(function(snapshot) {
-			  	console.log('Uploaded a blob or file!');
-		  });
-		}
+		 var task = storageRef.put($scope.user.PhotoURI)
+		 
+			task.on('state_changed', function(snapshot){
+		     
+				console.log(snapshot);
+		  
+		}, function(error) {
+		  // Handle unsuccessful uploads
+		}, function() {
+		  // Handle successful uploads on complete
+		  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+		 $scope.user.pp = storageRef.snapshot.downloadURL;
+		});
+
+		
+		// 
+	var userref = firebase.database().ref("/users/"+$scope.user.UID).set({		
+			AccountType:  $scope.user.type,			  
+			displayName :  $scope.user.displayName,
+		   ProfilePicture : $scope.user.PhotoURI
+		});
 		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
 			
@@ -348,7 +358,8 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				   HairLength:$scope.user.HairLength,
 				   EyeColor:$scope.user.EyeColor,
 				  	Shootnudes:$scope.user.Shootnudes,
-				  	Tattoos:$scope.user.Tattoos
+				  	Tattoos:$scope.user.Tattoos,
+				   ProfilePicture :$scope.user.pp
 				})
 				.then(function(){
 						
@@ -397,14 +408,17 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					mail:$scope.user.email,
 					UID:UID,
 					Provider:$scope.user.Provider,
-					Gender:$scope.user.Gender
+					Gender:$scope.user.Gender,
+				   ProfilePicture :$scope.user.pp
 				})
 				.then(function(){
+				$ionicLoading.hide();
 				$ionicPopup.confirm({
 					  title: "Sign up",
 					  template: "user created",
 						buttons:[{text: 'Ok'}]
 					});
+					
 				  $state.go("app.home");
 				})
 				.catch(function(error){
