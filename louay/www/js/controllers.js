@@ -189,7 +189,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   * @desc open the gallery to pick a picture
   * 
   */
-	
+  $scope.image = $scope.user.PhotoURI;
 
 	$scope.addImage = function() {
 		//call the plugin
@@ -309,7 +309,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
-	
+	  if($scope.user.Provider == "email"){
 		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
 		 var task = storageRef.put($scope.user.PhotoURI)
 		 
@@ -324,7 +324,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
 		 $scope.user.pp = storageRef.snapshot.downloadURL;
 		});
-
+	  }
 		
 		// 
 	var userref = firebase.database().ref("/users/"+UID).set({		
