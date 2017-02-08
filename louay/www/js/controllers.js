@@ -299,7 +299,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					  template: error.message,
 						buttons:[{text: 'Ok'}]
 					});
-     $ionicLoading.hide()
+     				$ionicLoading.hide()
 						
 						});
 		}	
@@ -330,7 +330,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	var userref = firebase.database().ref("/users/"+UID).set({		
 			AccountType:  $scope.user.type,			  
 			displayName :  $scope.user.displayName,
-		   ProfilePicture : $scope.user.PhotoURI
+		   ProfilePicture : $scope.user.pp
 		});
 		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
