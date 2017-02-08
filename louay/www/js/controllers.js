@@ -327,7 +327,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 		
 		// 
-	var userref = firebase.database().ref("/users/"+$scope.user.UID).set({		
+	var userref = firebase.database().ref("/users/"+UID).set({		
 			AccountType:  $scope.user.type,			  
 			displayName :  $scope.user.displayName,
 		   ProfilePicture : $scope.user.PhotoURI
