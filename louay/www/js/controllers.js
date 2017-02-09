@@ -1,21 +1,27 @@
 angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state,userProfile,Auth) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
- $scope.$on('$ionicView.enter', function(e) {
+ $scope.$on('$ionicView.enter', function(e,data) {
+	console.log(data);
  if(localStorage.getItem("Sawintro")!="true")
 	 	$state.go("intro");	
 
  });
-
+  userProfile.miniData();
+	$scope.logout=function(){
+	
+		Auth.$signOut();
+	
+	}
 })
 
 
-.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup) {
+.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory) {
    // holds the user data
 	
 	$scope.user = {email:"",password:""}
@@ -33,6 +39,10 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 		Auth.$signInWithEmailAndPassword($scope.user.email, $scope.user.password)
 			.then(function(firebaseUser) {
           $ionicLoading.hide()
+			 	 
+			 $ionicHistory.nextViewOptions({		
+				 disableBack: true			 
+			 });
 			$state.go("app.home");
 			//TODO when user is logged in
 		
@@ -74,7 +84,11 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 				}
 				else {   
 					$ionicLoading.hide()
-						 
+						
+					$ionicHistory.nextViewOptions({
+							 disableBack: true 	
+					});
+					
 					$state.go("app.home");	
 				}
 			 }).catch(function(error){
@@ -133,11 +147,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 		console.log(firebaseUser);
 		
 	});
-	$scope.logout=function(){
 	
-		Auth.$signOut()
-	
-	}
 	
 })
 

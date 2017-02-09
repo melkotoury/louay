@@ -39,4 +39,29 @@ angular.module('starter.services', ["firebase"])
 				  SPP:""};
 	
 	return user;
-});
+})
+
+.factory("userProfile" , function(Auth){
+	if(Auth.$getAuth()) 
+	var currentUserID = Auth.$getAuth().uid;
+	
+	  var userprofile = {}
+	//Method to get the  current  user data
+	 	userprofile.miniData = function(){ 
+			console.log(currentUserID);
+			userref = firebase.database().ref("/users/"+currentUserID)
+		
+				.once('value').then(function(snapshot) {
+			    console.log(snapshot.val());
+		
+			})
+								  
+		}
+	//Method to get the mini data by UID
+	//Method to get the full data by UID
+		
+		
+	return userprofile;
+})
+
+

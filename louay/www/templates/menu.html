@@ -18,17 +18,20 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close href="#/app/login">
-          Login
-        </ion-item>
-        <ion-item menu-close href="#/app/signup">
-          signup
-        </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
+        <ion-item menu-close href="#/app/home">
           Home
+        </ion-item>
+        <ion-item menu-close>
+          Jobs
+        </ion-item>
+        <ion-item menu-close>
+          TPF
+        </ion-item>
+        <ion-item menu-close>
+          Rent
+        </ion-item>
+         <ion-item ng-click="logout()" menu-close>
+          Logout
         </ion-item>
       </ion-list>
     </ion-content>
