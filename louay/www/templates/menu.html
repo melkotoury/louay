@@ -19,11 +19,11 @@
     <ion-content>
      
       <ion-list>
-       <a class="item item-avatar" href="#">
+       <a class="item item-avatar" ng-click="myprofile()" href="#">
       <img src="{{currentuserMini.ProfilePicture}}">
       <h2>{{currentuserMini.displayName}}</h2>
       <p>{{currentuserMini.AccountType}}</p>
-    		</a>
+    	</a>
         <ion-item menu-close href="#/app/home">
           Home
         </ion-item>

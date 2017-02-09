@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout,firebase,$state,userProfile,Auth) {
+.controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -12,8 +12,19 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	 	$state.go("intro");	
 
  });
- 
-		$scope.currentuserMini =   userProfile.miniData();
+	
+   userProfile.currentMiniData()
+		.then(function(data){
+		$scope.currentuserMini = data;
+	});
+
+  
+	$scope.myprofile = function(){
+		userProfile.fullCurrentProfile($scope.currentuserMini.AccountType)
+			.then(function(data){
+			$scope.currentuserfull = data;
+		});
+	}
 	
 	
 	$scope.logout=function(){

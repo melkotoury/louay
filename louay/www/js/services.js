@@ -41,23 +41,68 @@ angular.module('starter.services', ["firebase"])
 	return user;
 })
 
-.factory("userProfile" , function(Auth,$q,$firebaseObject){
+.factory("userProfile" , function(Auth,$q){
 	if(Auth.$getAuth()) 
 	var currentUserID = Auth.$getAuth().uid;
 	
 	  var userprofile = {}
-	  
-	 userprofile.currentAccountType;
-	//Method to get the  current full user data
-	 	userprofile.miniData = function(){ 
+	  userprofile.fullCurrentProfile = function(accountType){ 
+			 var deferred = $q.defer();
+			userref = firebase.database().ref("/"+accountType+"/"+currentUserID)
+		
+				.once('value').then(function(snapshot) {
+             console.log(snapshot.val());
+				deferred.resolve(snapshot.val())
+			  
+				
+			
+		
+			})
+		 return deferred.promise;				  
+		}
+	//Method to get the  current  user data
+	 	userprofile.currentMiniData = function(){ 
 			 var deferred = $q.defer();
 			userref = firebase.database().ref("/users/"+currentUserID)
-		   return $firebaseObject(userref);
+		
+				.once('value').then(function(snapshot) {
+           
+				deferred.resolve(snapshot.val())
+			  
+				
 			
+		
+			})
+		 return deferred.promise;				  
 		}
 		
-	//Method to get the mini data by UID
-	//Method to get the full data by UID
+			userprofile.MiniData = function(currentUserID){ 
+			 var deferred = $q.defer();
+			userref = firebase.database().ref("/users/"+ID)
+		
+				.once('value').then(function(snapshot) {
+           
+				deferred.resolve(snapshot.val())
+			  
+				
+			
+		
+			})
+		 return deferred.promise;				  
+		}
+		
+		 userprofile.fullProfile = function(accountType,ID){ 
+			 var deferred = $q.defer();
+			userref = firebase.database().ref("/"+accountType+"/"+ID)
+		
+				.once('value').then(function(snapshot) {
+             console.log(snapshot.val());
+				deferred.resolve(snapshot.val())
+			  
+				
+			
+		
+			})
 		
 		
 	return userprofile;
