@@ -41,22 +41,21 @@ angular.module('starter.services', ["firebase"])
 	return user;
 })
 
-.factory("userProfile" , function(Auth){
+.factory("userProfile" , function(Auth,$q,$firebaseObject){
 	if(Auth.$getAuth()) 
 	var currentUserID = Auth.$getAuth().uid;
 	
 	  var userprofile = {}
-	//Method to get the  current  user data
+	  
+	 userprofile.currentAccountType;
+	//Method to get the  current full user data
 	 	userprofile.miniData = function(){ 
-			console.log(currentUserID);
+			 var deferred = $q.defer();
 			userref = firebase.database().ref("/users/"+currentUserID)
-		
-				.once('value').then(function(snapshot) {
-			    console.log(snapshot.val());
-		
-			})
-								  
+		   return $firebaseObject(userref);
+			
 		}
+		
 	//Method to get the mini data by UID
 	//Method to get the full data by UID
 		

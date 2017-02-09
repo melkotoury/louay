@@ -7,12 +7,15 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
  $scope.$on('$ionicView.enter', function(e,data) {
-	console.log(data);
+	
  if(localStorage.getItem("Sawintro")!="true")
 	 	$state.go("intro");	
 
  });
-  userProfile.miniData();
+ 
+		$scope.currentuserMini =   userProfile.miniData();
+	
+	
 	$scope.logout=function(){
 	
 		Auth.$signOut();
