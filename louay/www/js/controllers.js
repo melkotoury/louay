@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
-.controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth,$cordovaCamera,$ionicPopup) {
+.controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth,$cordovaCamera,$ionicPopup,$ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -21,10 +21,15 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
   
 	
 	$scope.myprofile = function(){
+		 $ionicHistory.nextViewOptions({		
+				 disableBack: true			 
+			 });
+		$state.go("app.profile");
 		userProfile.fullCurrentProfile($scope.currentuserMini.AccountType)
 			.then(function(data){
 			$scope.currentuserfull = data;	
 			console.log($scope.currentuserfull);
+
 			if(Auth.$getAuth().uid == $scope.currentuserfull.UID)
 					$scope.canUpdate = true;
 	
@@ -440,18 +445,9 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
 		 var task = storageRef.put($scope.user.PhotoURI)
 		 
-			task.on('state_changed', function(snapshot){
-		     
-				console.log(snapshot);
-					if(snapshot.downloadURL)
-						 $scope.user.pp = snapshot.downloadURL;
-		  
-		}, function(error) {
-		  // Handle unsuccessful uploads
-		}, function() {
-		  // Handle successful uploads on complete
-		  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-		});
+			task.then(function(snapshot){
+					$scope.user.pp = snapshot.downloadURL;
+			});
 	  }
 		
 		// 
