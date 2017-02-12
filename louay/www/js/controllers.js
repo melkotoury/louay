@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
-.controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth) {
+.controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth,$cordovaCamera,$ionicPopup) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -19,20 +19,122 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	});
 
   
+	
 	$scope.myprofile = function(){
 		userProfile.fullCurrentProfile($scope.currentuserMini.AccountType)
 			.then(function(data){
-			$scope.currentuserfull = data;
+			$scope.currentuserfull = data;	
+			console.log($scope.currentuserfull);
+			if(Auth.$getAuth().uid == $scope.currentuserfull.UID)
+					$scope.canUpdate = true;
+	
 		});
 	}
 	
+	$scope.addImage = function() {
+		var options = {
+		destinationType: Camera.DestinationType.FILE_URI,   
+		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+		quality : 30
+	};
+		
+			//call the plugin
+	  $cordovaCamera.getPicture(options).then(function(imageURI) {
+		 //push to the picture array the picture to display 
+		  $scope.image = imageURI;
+		 
+		
+        //creting a file enrty with the correct path
+		  window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
+     
+			  fileEntry.file(function (file) {
+              //read the file data
+				  var reader = new FileReader();
+      
+				  reader.onloadend = function () {
+        
+					  // This blob object can be saved to firebase
+         
+					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
+			       //save it to the PhotoURI
+					  
+						if($scope.currentuserfull.profilePictures){
+
+							var storageRef = firebase.storage()
+							.ref("userpictures/"+Auth.$getAuth().uid+"/"+$scope.currentuserfull.profilePictures.length+".jpeg");
+
+						}
+						else {
+							$scope.currentuserfull.profilePictures = [];
+							var storageRef = firebase.storage()
+							.ref("userpictures/"+Auth.$getAuth().uid+"/0.jpeg");
+						}
+					  var task = storageRef.put(blob)
+						task.then(function(data){
+							//add it to the user
+							$scope.currentuserfull.profilePictures.push(data.downloadURL)   
+							updatePicutres ()
+						})
+				  
+				  };
+
+				  reader.readAsArrayBuffer(file);
+			
+			  });
+
+						  
+		  }, function (error) {
+					  $ionicLoading.hide()
+						 console.log(error)
+
+						
+		  });
+ 
+	  });
+		
+			
+		
+	}
 	
 	$scope.logout=function(){
 	
 		Auth.$signOut();
 	
 	}
+	
+	function updatePicutres (){
+		var userref = firebase.database().ref("/"+$scope.currentuserMini.AccountType+"/"+$scope.currentuserfull.UID)
+
+			.update({
+				profilePictures : $scope.currentuserfull.profilePictures
+			}).then(function(){
+				$ionicPopup.confirm({
+					title: "Sign up",
+					template: "user created",
+					buttons:[{text: 'Ok'}]
+				});
+			}).catch(function(error){
+				console.log(error);
+			}) 
+	}
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory) {
@@ -206,6 +308,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	var options = {
 		destinationType: Camera.DestinationType.FILE_URI,   
 		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+		quality : 30
 	};
 
 	
@@ -252,7 +355,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
  
 	  });
 		
-	
+
 	}
 	/**
   * 
@@ -340,13 +443,14 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			task.on('state_changed', function(snapshot){
 		     
 				console.log(snapshot);
+					if(snapshot.downloadURL)
+						 $scope.user.pp = snapshot.downloadURL;
 		  
 		}, function(error) {
 		  // Handle unsuccessful uploads
 		}, function() {
 		  // Handle successful uploads on complete
 		  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-		 $scope.user.pp = storageRef.snapshot.downloadURL;
 		});
 	  }
 		

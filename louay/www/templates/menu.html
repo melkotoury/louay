@@ -17,27 +17,29 @@
       <h1 class="title">Left</h1>
     </ion-header-bar>
     <ion-content>
-     
-      <ion-list>
-       <a class="item item-avatar" ng-click="myprofile()" href="#">
-      <img src="{{currentuserMini.ProfilePicture}}">
-      <h2>{{currentuserMini.displayName}}</h2>
-      <p>{{currentuserMini.AccountType}}</p>
+     <a class="item menuAvatar" ng-click="myprofile()" href="#/app/profile">
+      <img class="img-circle" src="{{currentuserMini.ProfilePicture}}" 	width="30%" height="10%">
+      <p class="menutext">{{currentuserMini.displayName}}</p>
+      <h2>  {{currentuserMini.AccountType}}</h2>
     	</a>
+
+      <ion-list>
         <ion-item menu-close href="#/app/home">
-          Home
+         <i class="icon ion-home"></i> Home
         </ion-item>
         <ion-item menu-close>
-          Jobs
+       <i class="icon ion-document-text"></i>   Jobs
         </ion-item>
         <ion-item menu-close>
-          TPF
+       <i class="icon ion-document-text"></i>   TPF
         </ion-item>
         <ion-item menu-close>
-          Rent
+       <i class="icon ion-ios-pricetag"></i>   Rent
         </ion-item>
+        <ion-item>
+			</ion-item>
          <ion-item ng-click="logout()" href="#/app/home" menu-close>
-          Logout
+        <i class="icon ion-log-out"></i>  Logout
         </ion-item>
       </ion-list>
     </ion-content>
