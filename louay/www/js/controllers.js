@@ -78,7 +78,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 						task.then(function(data){
 							//add it to the user
 							$scope.currentuserfull.profilePictures.push(data.downloadURL)   
-							updatePicutres ()
+							updatePicutres()
 						})
 				  
 				  };
@@ -104,6 +104,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	$scope.logout=function(){
 	
 		Auth.$signOut();
+		$state.go("app.login");	
 	
 	}
 	
@@ -176,6 +177,14 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					});
 		});
 	};
+	
+	$scope.goSignup = function(){
+		 	 
+			 $ionicHistory.nextViewOptions({		
+				 disableBack: true			 
+			 });
+			 $state.go("app.signup");
+	}
 	
 	$scope.facebookLogin = function(){
 			$ionicLoading.show({
@@ -280,7 +289,11 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 .controller('IntroCtrl', function($scope,$state,$timeout) {
 //Should be moved to resolve and handled with a promise
-	
+
+	$scope.skip = function(){
+		localStorage.setItem("Sawintro", "true");
+		$state.go("app.login");	
+	}
 		
 $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
   // data.slider is the instance of Swiper
@@ -305,7 +318,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$ionicLoading,$ionicPopup) {
+.controller('signupCtrl', function($scope,$cordovaCamera,userData,Auth,$state,$ionicLoading,$ionicPopup,$ionicHistory) {
  
 	$scope.user = userData;
 	
@@ -325,6 +338,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 	$scope.addImage = function() {
 		//call the plugin
+
 	  $cordovaCamera.getPicture(options).then(function(imageURI) {
 		 //set the picture to display 
 		  $scope.image = imageURI;
@@ -359,8 +373,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		  });
  
 	  });
-		
-
+		 
 	}
 	/**
   * 
@@ -372,8 +385,10 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 	$scope.ToSignup2 = function(){
 		
-		if($scope.user.displayName && $scope.user.email)
+		if($scope.user.displayName && $scope.user.email&& $scope.user.pw1 && $scope.user.pw1)
 			$state.go("app.signup2")
+			else if ($scope.user.Provider == "facebook"|| $scope.user.Provider == "instagram")
+				$state.go("app.signup2")
 			else
 				$ionicPopup.confirm({	
 					title: ' Signup error',

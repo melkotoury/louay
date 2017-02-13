@@ -1,4 +1,4 @@
-<ion-view can-swipe-back="false" view-title="login">
+<ion-view can-swipe-back="false" hide-nav-bar="true" view-title="login">
   <ion-header-bar>
     <h1 class="title">Login</h1>
     
@@ -33,7 +33,7 @@
           <br/>
 
           <p class="text-center text-muted">
-            <small>Don't have an account yet? <a  href="#/signup">Sign up</a></small>
+            <small>Don't have an account yet? <a ng-click="goSignup()" >Sign up</a></small>
           </p>
 
           <div class="signup-or-separator">
@@ -44,7 +44,7 @@
         <div class="social-btn">
         <a class="btn btn-block btn-instagram"  ng-click="instagramLogin()">
           <i class="ion-social-instagram"></i> Sign in with Instagram
-        </button>
+        </a>
          <a class="btn btn-block btn-facebook" ng-click="facebookLogin()">
           <i class="ion-social-facebook"></i> Sign in with Facebook
         </a>
