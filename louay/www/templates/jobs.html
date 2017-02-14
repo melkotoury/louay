@@ -1,5 +1,16 @@
 <ion-view view-title="jobs">
-  <ion-content>
-    <a ng-click ="goToAddjob()" class="button button-dark">Add a job</a>
-  </ion-content>
+	<ion-nav-buttons side="secondary">
+		<div class="buttons">
+			<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+		</div>
+	</ion-nav-buttons>
+	<ion-content>
+		<div ng-if = "!noJobs" ng-repeat="job in userJobs">
+			<div class="card">
+				<div class="item item-divider"> {{job.title}} </div>
+				<div class="item item-text-wrap"> {{job.description}} </div>
+			</div>
+		</div>
+		<div ng-if="noJobs"><h3>{{noJobs}}</h3></div>
+	</ion-content>
 </ion-view>

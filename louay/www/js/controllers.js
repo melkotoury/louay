@@ -600,30 +600,44 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 })
 
-.controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth) {
+.controller('jobsCtrl', 
+				function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicPopover) {
 
 	var uid = Auth.$getAuth().uid;
 	//Get the user jobs 
-	
-	$scope.getJobs = function(){
+	  
+  $scope.popover = $ionicPopover.fromTemplateUrl("templates/jobOptions.html", {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+
+	 $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+	 };
+ function getJobs(){
 		firebase.database().ref("/jobs/"+uid+"/")
 		.once('value').then(function(snapshot) {
-			if(!snapshot){
-				$scope.noJobs = "You don't have jobs currently"
+			if(!snapshot.val()){
+				$scope.noJobs = "You don't have jobs currently";
 				
 			}
 			else 
-				console.log(snapshot.val());
+			$scope.userJobs =	snapshot.val();
 			
-		}
-		
+			console.log($scope.userJobs);
+				console.log($scope.noJobs);
+			
+		})
 	}
+	
+	getJobs();
+	
 	userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
 		 
 	});
-
 	$scope.job = {title:"",description:"",categorie:"",Budget:"",time:""}
 	
 	$scope.goToAddjob = function(){
@@ -647,6 +661,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			time : $scope.job.time
 		})
 		.then(function(){
+				getJobs();
 				$ionicLoading.hide();
 				$ionicPopup.confirm({
 					  title: "Sign up",
