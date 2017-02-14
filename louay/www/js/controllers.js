@@ -603,7 +603,21 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 .controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth) {
 
 	var uid = Auth.$getAuth().uid;
+	//Get the user jobs 
 	
+	$scope.getJobs = function(){
+		firebase.database().ref("/jobs/"+uid+"/")
+		.once('value').then(function(snapshot) {
+			if(!snapshot){
+				$scope.noJobs = "You don't have jobs currently"
+				
+			}
+			else 
+				console.log(snapshot.val());
+			
+		}
+		
+	}
 	userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
@@ -611,6 +625,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	});
 
 	$scope.job = {title:"",description:"",categorie:"",Budget:"",time:""}
+	
 	$scope.goToAddjob = function(){
 		
 		$state.go("app.addjobs");
@@ -620,8 +635,9 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			$ionicLoading.show({
 				template: 'Loading...',
 			})
-			
-		firebase.database().ref("/jobs/"+uid).childByAutoId()
+	 var newPostKey = firebase.database().ref().child("/jobs/"+uid+"/").push().key;
+
+		firebase.database().ref("/jobs/"+uid+"/"+newPostKey)
 		.set({
 			postedBy:uid,
 			title:$scope.job.title,
