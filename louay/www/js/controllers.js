@@ -617,14 +617,15 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	 };
  function getJobs(){
 		firebase.database().ref("/jobs/"+uid+"/")
-		.once('value').then(function(snapshot) {
+		.on('child_added').then(function(snapshot) {
 			if(!snapshot.val()){
 				$scope.noJobs = "You don't have jobs currently";
 				
 			}
-			else 
+			else {
+			$scope.noJobs = false;	
 			$scope.userJobs =	snapshot.val();
-			
+			}
 			console.log($scope.userJobs);
 				console.log($scope.noJobs);
 			
