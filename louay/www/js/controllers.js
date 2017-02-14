@@ -600,6 +600,18 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 })
 
+.controller('jobsCtrl', function($scope,userProfile,$state) {
+	 userProfile.currentMiniData()
+		.then(function(data){
+		$scope.currentuserMini = data;
+	});
+	
+	$scope.goToAddjob = function(){
+		 $state.go("app.addjobs");
+	}
+	
+})
+
 
 
   

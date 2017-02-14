@@ -131,6 +131,22 @@ $stateProvider
         controller: 'AppCtrl'
       }
     }
+  }).state('app.jobs', {
+    url: '/jobs',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/jobs.html',
+        controller: 'jobsCtrl'
+      }
+    }
+  }).state('app.addjobs', {
+    url: '/addjobs',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/addjobs.html',
+        controller: 'jobsCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/home');

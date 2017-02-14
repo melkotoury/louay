@@ -1,0 +1,33 @@
+<ion-view view-title="Add Job">
+	<ion-content>
+		<div class="list">
+			<label class="item item-input item-stacked-label"> <span class="input-label">Job Title</span>
+				<input ng-model="job.title" type="text"> </label>
+			<label class="item item-input item-stacked-label"> <span class="input-label">Job Description</span>
+				<textarea ng-model="job.description" rows="5"></textarea>
+			</label>
+			<label class="item item-input item-stacked-label"> <span class="input-label">job location</span>
+				<input ng-model="job.location" type="text"> </label>
+				 <label class="item item-input item-select">
+			<div class="input-label"> categorie </div>
+			<select ng-model="job.categorie">
+				<option value="Art director">Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Makeup artist">Makeup artist</option>
+				<option value="Nail artist">Nail artist</option>
+				<option value="Model">Model</option>
+				<option value="Graphic designers">Graphic designers</option>
+				<option value="Animators">Animators</option>
+				<option value="3D designers">3D designers</option>
+				<option value="Film director">Film director</option>
+			</select>
+			</label>
+			<label class="item item-input item-stacked-label"> <span class="input-label">Budget</span>
+				<input ng-model="job.Budget" type="text"> </label>
+			<label class="item item-input item-stacked-label"> <span class="input-label">Time</span>
+				<input ng-model="job.Budget" type="text"> </label>
+		</div> <a class="button button-block button-positive">   add job  <i class="icon ion-arrow-right-a"></i></a> </ion-content>
+</ion-view> 
