@@ -600,16 +600,59 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 })
 
-.controller('jobsCtrl', function($scope,userProfile,$state) {
-	 userProfile.currentMiniData()
+.controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth) {
+
+	var uid = Auth.$getAuth().uid;
+	
+	userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
+		 
 	});
-	
+
+	$scope.job = {title:"",description:"",categorie:"",Budget:"",time:""}
 	$scope.goToAddjob = function(){
-		 $state.go("app.addjobs");
+		
+		$state.go("app.addjobs");
+		
 	}
-	
+	$scope.addJob = function(){
+			$ionicLoading.show({
+				template: 'Loading...',
+			})
+			
+		firebase.database().ref("/jobs/"+uid).childByAutoId()
+		.set({
+			postedBy:uid,
+			title:$scope.job.title,
+			description : $scope.job.description,
+			categorie : $scope.job.categorie,
+			Budget : $scope.job.Budget,
+			time : $scope.job.time
+		})
+		.then(function(){
+				$ionicLoading.hide();
+				$ionicPopup.confirm({
+					  title: "Sign up",
+					  template: "user created",
+						buttons:[{text: 'Ok'}]
+					});
+					
+				  $state.go("app.jobs");
+				})
+				.catch(function(error){
+					//TODO ALERT THE USER
+					$ionicLoading.hide()
+				
+					$ionicPopup.confirm({
+					  title: ' Signup error',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
+					console.log("error in adding to firebase");		 
+					return error;
+				})	
+	}
 })
 
 
