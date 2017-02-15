@@ -1,0 +1,38 @@
+<ion-view view-title="jobs">
+	<ion-nav-buttons side="secondary">
+		<div class="buttons">
+			<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+		</div>
+	</ion-nav-buttons>
+	<ion-content>
+		<div ng-show = "!noJobs" ng-repeat="job in userJobs">
+			<div class="card">
+				<a href="#/app/jobDetail/{{job.postedBy}}/{{job.jobKey}}"><div class="item item-divider"> {{job.title}} </div></a>
+				<div class="item item-text-wrap"> {{job.description}} </div>
+			</div>
+		</div>
+		<div ng-show="noJobs"><h3>{{noJobs}}</h3>
+		select from here 
+			<div class="list">
+				 <label class="item item-input item-select">
+			<div class="input-label"> categorie </div>
+			<select ng-model="data.categorie">
+				<option value="Art director">Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Makeup artist">Makeup artist</option>
+				<option value="Nail artist">Nail artist</option>
+				<option value="Model">Model</option>
+				<option value="Graphic designers">Graphic designers</option>
+				<option value="Animators">Animators</option>
+				<option value="3D designers">3D designers</option>
+				<option value="Film director">Film director</option>
+			</select>
+			</label>
+			<a class="button" ng-click="search()">search</a>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -36,6 +36,21 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 		});
 	}
 	
+	$scope.goJobs = function(){
+		if($scope.currentuserMini.AccountType == "Artist"){
+			 $ionicHistory.nextViewOptions({		
+				 disableBack: true			 
+			 });
+			$state.go("app.jobsArtist")
+		}
+		else {
+			 $ionicHistory.nextViewOptions({		
+				 disableBack: true			 
+			 });
+			$state.go("app.jobs")
+		}
+	}
+	
 	$scope.addImage = function() {
 		var options = {
 		destinationType: Camera.DestinationType.FILE_URI,   
@@ -603,6 +618,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 .controller('jobsCtrl', 
 				function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicPopover) {
 
+	
 	var uid = Auth.$getAuth().uid;
 	//Get the user jobs 
 	  
@@ -617,7 +633,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	 };
  function getJobs(){
 		firebase.database().ref("/jobs/"+uid+"/")
-		.on('child_added').then(function(snapshot) {
+		.on('value',function(snapshot) {
 			if(!snapshot.val()){
 				$scope.noJobs = "You don't have jobs currently";
 				
@@ -626,7 +642,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			$scope.noJobs = false;	
 			$scope.userJobs =	snapshot.val();
 			}
-			console.log($scope.userJobs);
+				console.log($scope.userJobs);
 				console.log($scope.noJobs);
 			
 		})
@@ -651,7 +667,16 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				template: 'Loading...',
 			})
 	 var newPostKey = firebase.database().ref().child("/jobs/"+uid+"/").push().key;
-
+    
+		firebase.database().ref("/categories/"+$scope.job.categorie+"/"+newPostKey)
+      .set({
+			postedBy:uid,
+			jobKey : newPostKey,
+			title:$scope.job.title,
+			description : $scope.job.description
+			
+		})
+		
 		firebase.database().ref("/jobs/"+uid+"/"+newPostKey)
 		.set({
 			postedBy:uid,
@@ -662,7 +687,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			time : $scope.job.time
 		})
 		.then(function(){
-				getJobs();
+			
 				$ionicLoading.hide();
 				$ionicPopup.confirm({
 					  title: "Sign up",
@@ -689,4 +714,53 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 
 
 
-  
+.controller('jobsArtistCtrl', function($scope,Auth) {
+  var uid = Auth.$getAuth().uid;
+  //Check if there was any pids or jobs
+  function getpids(){
+		firebase.database().ref("/Artist/"+uid+"/bids")
+		.on('value',function(snapshot) {
+			if(!snapshot.val()){
+				$scope.noJobs = "You don't have jobs currently";
+				
+			}
+			else {
+			$scope.noJobs = false;	
+			$scope.userJobs =	snapshot.val();
+			}
+				console.log($scope.userJobs);
+				console.log($scope.noJobs);
+			
+		})
+	}
+	
+	getpids()
+	
+	$scope.data = {categorie:""}
+//find jobs 
+		
+	$scope.search =function (){
+ 
+		var ref =	firebase.database().ref("/categories/"+$scope.data.categorie)
+		ref.once("value").then(function(snapshot){
+			console.log(snapshot.val());
+			$scope.noJobs = false;	
+			$scope.userJobs =	snapshot.val();
+		})
+	}
+	
+
+})
+.controller('jobDetailCtrl', function($scope,Auth,$stateParams,userProfile) {
+		var uid = Auth.$getAuth().uid;
+	userProfile.currentMiniData()
+		.then(function(data){
+		$scope.currentuserMini = data;
+		 
+	});
+	firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId)
+	.once("value").then(function(snapshot){
+		console.log(snapshot.val());
+	})
+	
+})
