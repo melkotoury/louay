@@ -758,9 +758,41 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		$scope.currentuserMini = data;
 		 
 	});
+
 	firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId)
 	.once("value").then(function(snapshot){
 		console.log(snapshot.val());
+		$scope.jobData = snapshot.val();
 	})
+	$scope.data = {bidDesc : "",amount:""}
+	$scope.Bid = function(){
+		//add the bid data to the user
+		firebase.database().ref("/Artist/"+uid+"/bids/"+$stateParams.posterId)
+		.set({
+			jobID:$stateParams.JobId,
+			Title :$scope.jobData.title,
+			description : $scope.jobData.description,
+			postedby:$stateParams.posterId,
+			accepeted : "false"
+		})
+		
+			
+		firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId+"/bids/"+uid)
+		.set({
+			biderID : uid,
+			bidDesc : $scope.data.bidDesc,
+			amount : $scope.data.amount,
+			name : $scope.currentuserMini.displayName,
+			picture : $scope.currentuserMini.ProfilePicture,
+			accepeted : "false"
+		}).then(function(){
+			console.log("user Added");
+		})
+		//add the bid data to the job bids
+	}
+	
+	//Accept Bid 
+	
+	
 	
 })
