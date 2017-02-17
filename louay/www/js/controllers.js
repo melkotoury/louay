@@ -615,13 +615,15 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 })
 
-.controller('jobsCtrl', 
-				function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicPopover) {
+.controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicPopover) {
 
 	
 	var uid = Auth.$getAuth().uid;
 	//Get the user jobs 
-	  
+	   $scope.gotoDetail = function (index){
+	  $scope.keys = Object.keys($scope.userJobs);
+	  $state.go("app.jobDetail",{posterId:uid ,JobId:$scope.keys[index]});
+  }	
   $scope.popover = $ionicPopover.fromTemplateUrl("templates/jobOptions.html", {
     scope: $scope
   }).then(function(popover) {
@@ -644,7 +646,9 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			}
 				console.log($scope.userJobs);
 				console.log($scope.noJobs);
-			
+				
+				
+				
 		})
 	}
 	
@@ -713,7 +717,6 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 })
 
 
-
 .controller('jobsArtistCtrl', function($scope,Auth) {
   var uid = Auth.$getAuth().uid;
   //Check if there was any pids or jobs
@@ -751,20 +754,48 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 
 })
+
+
+
 .controller('jobDetailCtrl', function($scope,Auth,$stateParams,userProfile) {
-		var uid = Auth.$getAuth().uid;
+	//Get the user ID
+	var uid = Auth.$getAuth().uid;
+	// get the user MiniPorfile data
 	userProfile.currentMiniData()
 		.then(function(data){
-		$scope.currentuserMini = data;
-		 
+		$scope.currentuserMini = data;	 
 	});
-
+   
+	//Get the job Data
 	firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId)
 	.once("value").then(function(snapshot){
 		console.log(snapshot.val());
 		$scope.jobData = snapshot.val();
+		
+			//counting Bids
+	if($scope.jobData.hasOwnProperty("bids"))
+	
+		$scope.bidsCount =Object.keys($scope.jobData.bids).length;
+		else
+			$scope.bidsCount = 0;
 	})
+	
 	$scope.data = {bidDesc : "",amount:""}
+	
+	//Some State Var for view
+	if($scope.currentuserMini == "Artist")
+		$scope.isAritst = true;
+		else 
+			$scope.isClient = true;
+	
+	if(uid == $stateParams.posterId )
+		$scope.jobOwner = true;
+	
+ 
+	
+	//Showing the basic data
+
+	
 	$scope.Bid = function(){
 		//add the bid data to the user
 		firebase.database().ref("/Artist/"+uid+"/bids/"+$stateParams.posterId)
@@ -785,10 +816,14 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			name : $scope.currentuserMini.displayName,
 			picture : $scope.currentuserMini.ProfilePicture,
 			accepeted : "false"
-		}).then(function(){
+		})
+			.then(function(){
+			
 			console.log("user Added");
+		
 		})
 		//add the bid data to the job bids
+	
 	}
 	
 	//Accept Bid 

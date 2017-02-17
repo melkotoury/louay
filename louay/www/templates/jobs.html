@@ -6,10 +6,11 @@
 	</ion-nav-buttons>
 	<ion-content>
 		<div ng-if = "!noJobs" ng-repeat="job in userJobs">
-			<div class="card">
+			<div class="card" ng-click="gotoDetail($index)">
 				<div class="item item-divider"> {{job.title}} </div>
 				<div class="item item-text-wrap"> {{job.description}} </div>
-			</div>
+		
+				</div>
 		</div>
 		<div ng-if="noJobs"><h3>{{noJobs}}</h3></div>
 	</ion-content>

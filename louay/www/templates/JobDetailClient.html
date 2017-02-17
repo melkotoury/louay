@@ -1,0 +1,14 @@
+<ion-view view-title="jobs">
+	<ion-nav-buttons side="secondary">
+		<div class="buttons">
+			<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+		</div>
+	</ion-nav-buttons>
+	<ion-content>
+		<a class="button"  ng-click="Bid()"> bid</a>
+			<label class="item item-input item-stacked-label"> <span class="input-label">Bid Description</span>
+				<textarea ng-model="data.bidDesc" rows="5"></textarea>
+			<label class="item item-input item-stacked-label"> <span class="input-label">Bid Amount</span>
+				<input ng-model="data.amount" type="text"> </label>
+	</ion-content>
+</ion-view>
