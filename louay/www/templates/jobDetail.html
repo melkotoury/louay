@@ -5,67 +5,55 @@
 		</div>
 	</ion-nav-buttons>
 	<ion-content>
-	<div class="list card">
-
-  <div class="item item-avatar">
-    <img src="{{currentuserMini.ProfilePicture}}">
-    <h2>{{jobData.title}}</h2>
-    <p>should add a date here</p>
-  </div>
-
-  <div class="item item-body">
-    <p>
+		<div class="list card">
+			<div class="item item-avatar"> <img src="{{currentuserMini.ProfilePicture}}">
+				<h2>{{jobData.title}}</h2>
+				<p>should add a date here</p>
+			</div>
+			<div class="item item-body">
+				<h2>
       {{jobData.description}}
-    </p>
-    <p>
-      <a  class="subdued">{{bidsCount}} biders</a>
-      <a  class="subdued">Duration : {{jobData.time}}</a>
-      <a  class="subdued"> Budget : {{jobData.Budget}} LE</a>
-        <div class="item item-avatar" ng-repeat="bid in jobData.bids">
-	      <img src="{{bid.picture}}">
-     </div>  
-      
-    </p>
-  </div>
-
-</div>
-<div>
-	<div ng-if="jobOwner">
-	
-	<div class="list card" ng-repeat="bid in jobData.bids">
-
-    <a class="item item-avatar item-button-right">
-      <img src="{{bid.picture}}">
-      <h2>{{bid.name}} </h2>
-      <p>{{bid.bidDesc}}</p>
-      <p>{{bid.amount}}</p>
-      <p ng-if="bid.accepeted == 'true' ">Accepted</p>
-       
-  
- 
-    </a>
-    
-<button ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)" class="button  button-small button-positive">
-     Accept Bid 
-    </button>
-    <button class="button  button-small button-balanced">
-	Message    
-   </button>
-   
-  </div>
-
-</div>
-
-</div>
-	<div ng-if="isAritst">
-		<a class="button"  ng-click="Bid()"> bid</a>
-			<label class="item item-input item-stacked-label"> <span class="input-label">Bid Description</span>
-				<textarea ng-model="data.bidDesc" rows="5"></textarea>
-			</label>
-			<label class="item item-input item-stacked-label"> <span class="input-label">Bid Amount</span>
-				<input ng-model="data.amount" type="text"> </label>
+    </h2>
+				<p>
+					<p class="subdued">Duration : {{jobData.time}}</p>
+					<p class="subdued"> Budget : {{jobData.Budget}} LE</p>
+					<p class="subdued"> Location : </p>
+					<p class="subdued">{{bidsCount}} biders</p>
+					<div class="item item-avatar" ng-repeat="bid in jobData.bids"> <img src="{{bid.picture}}"> </div>
+				</p>
+			</div>
+		</div>
+		<div>
+			<div ng-if="jobOwner">
+				<div class="list card" ng-repeat="bid in jobData.bids">
+					<a class="item item-avatar item-button-right"> <img src="{{bid.picture}}">
+						<h2>{{bid.name}} </h2>
+						<p>{{bid.bidDesc}}</p>
+						<p>{{bid.amount}}</p>
+						<p ng-if="userBid.accepeted == 'true' ">Accepted</p>
+					</a>
+					<button ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)" class="button  button-small button-positive"> Accept Bid </button>
+					<button class="button  button-small button-balanced"> Message </button>
+				</div>
+			</div>
+		</div>
+		<div ng-if="isAritst">
+			<div ng-if="!userBid"> <a class="button" ng-click="Bid()"> bid</a>
+				<label class="item item-input item-stacked-label"> <span class="input-label">Bid Description</span>
+					<textarea ng-model="data.bidDesc" rows="5"></textarea>
+				</label>
+				<label class="item item-input item-stacked-label"> <span class="input-label">Bid Amount</span>
+					<input ng-model="data.amount" type="text"> </label>
+			</div>
+			<div ng-if="userBid">
+				<a class="item item-avatar item-button-right"> <img src="{{userBid.picture}}">
+					<h2>{{userBid.name}} </h2>
+					<p>{{userBid.bidDesc}}</p>
+					<p>{{userBid.amount}}</p>
+					<p ng-if="userBid.accepeted == 'true' ">Accepted</p>
+				</a>
+			</div>
+		</div>
+		<div ng-if="isClient"> </div>
 	</ion-content>
-	</div>
-	<div ng-if="isClient">
-	</div>
 </ion-view>

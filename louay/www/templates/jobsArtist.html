@@ -7,7 +7,7 @@
 	<ion-content>
 		<div ng-show = "!noJobs" ng-repeat="job in userJobs">
 			<div class="card">
-				<a href="#/app/jobDetail/{{job.postedBy}}/{{job.jobKey}}"><div class="item item-divider"> {{job.title}} </div></a>
+				<a href="#/app/jobDetail/{{job.postedby}}/{{job.jobID}}"><div class="item item-divider"> {{job.Title}} </div></a>
 				<div class="item item-text-wrap"> {{job.description}} </div>
 			</div>
 		</div>
