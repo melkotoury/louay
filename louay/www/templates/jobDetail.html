@@ -32,16 +32,26 @@
 <div>
 	<div ng-if="jobOwner">
 	
-	<div class="list" ng-repeat="bid in jobData.bids">
+	<div class="list card" ng-repeat="bid in jobData.bids">
 
-    <a class="item item-avatar">
+    <a class="item item-avatar item-button-right">
       <img src="{{bid.picture}}">
       <h2>{{bid.name}} </h2>
       <p>{{bid.bidDesc}}</p>
       <p>{{bid.amount}}</p>
-    
+      <p ng-if="bid.accepeted == 'true' ">Accepted</p>
+       
+  
+ 
     </a>
-
+    
+<button ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)" class="button  button-small button-positive">
+     Accept Bid 
+    </button>
+    <button class="button  button-small button-balanced">
+	Message    
+   </button>
+   
   </div>
 
 </div>

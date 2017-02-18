@@ -768,7 +768,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
    
 	//Get the job Data
 	firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId)
-	.once("value").then(function(snapshot){
+	.on("value",function(snapshot){
 		console.log(snapshot.val());
 		$scope.jobData = snapshot.val();
 		
@@ -778,6 +778,19 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		$scope.bidsCount =Object.keys($scope.jobData.bids).length;
 		else
 			$scope.bidsCount = 0;
+	
+	//See if the job has an accepted bider
+		
+	for(var key in $scope.jobData.bids){
+		 if ($scope.jobData.bids.hasOwnProperty(key)) {
+			if( $scope.jobData.bids[key].accepeted == "true"){
+				
+				$scope.acceptedBid = $scope.jobData.bids[key];
+			   
+		 }
+	}
+	
+	}
 	})
 	
 	$scope.data = {bidDesc : "",amount:""}
@@ -794,7 +807,23 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
  
 	
 	//Showing the basic data
+$scope.acceptBid = function(bider){
+	//update the bid value
 
+	
+	//update the value for user
+		firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId+"/bids/"+bider)
+			.update({
+			accepeted:"true"
+		})
+		
+		firebase.database().ref("/Artist/"+bider+"/bids/"+uid)
+		
+			.update({
+			accepeted:"true"
+		})
+		
+}
 	
 	$scope.Bid = function(){
 		//add the bid data to the user
