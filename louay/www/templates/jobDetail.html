@@ -1,42 +1,59 @@
-<ion-view view-title="jobs">
-	<ion-nav-buttons side="secondary">
-		<div class="buttons">
-			<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
-		</div>
-	</ion-nav-buttons>
-	<ion-content>
-		<div class="list card">
-			<div class="item item-avatar"> <img src="{{currentuserMini.ProfilePicture}}">
-				<h2>{{jobData.title}}</h2>
-				<p>should add a date here</p>
+<ion-view title="Job">
+	<!--news feed section-->
+	<ion-content id="news-feed-content">
+		<div class="news-item">
+			<!--header section-->
+			<div class="row header">
+				<div class="col-20"> <img src="{{currentuserMini.ProfilePicture}}" class="user-img" /> </div>
+				<div class="col-80"> <span class="name">
+                       {{currentuserMini.displayName}}
+                   </span>
+					<br/> <span class="datetime">
+                       1 hours ago
+                   </span> </div>
 			</div>
-			<div class="item item-body">
-				<h2>
-      {{jobData.description}}
-    </h2>
-				<p>
-					<p class="subdued">Duration : {{jobData.time}}</p>
-					<p class="subdued"> Budget : {{jobData.Budget}} LE</p>
-					<p class="subdued"> Location : </p>
-					<p class="subdued">{{bidsCount}} biders</p>
-					<div class="item item-avatar" ng-repeat="bid in jobData.bids"> <img src="{{bid.picture}}"> </div>
-				</p>
+			<!--end header section-->
+			<!--detail section-->
+			<div class="row detail">
+				<div class="col">
+					<h1>
+                       {{jobData.title}}
+                    </h1>
+					<p class="content">
+						{{jobData.description}}
+					
+						<div class="item item-avatar" ng-repeat="bid in jobData.bids"> <img src="{{bid.picture}}"> </div>
+					</p>
+				</div>
 			</div>
+			<!--footer section-->
+			<div class="row footer">
+				<div class="col-33"> <span class="number">{{bidsCount}}</span> <span class="wording">biders</span> </div>
+				<div class="col-33"> <span class="number">{{jobData.Budget}}</span> <span class="wording">LE</span> </div>
+				<div class="col-33"> <span class="number">{{jobData.time}}</span> <span class="wording"></span> </div>
+			</div>
+			<!--end footer section-->
 		</div>
-		<div>
-			<div ng-if="jobOwner">
+				<div ng-if="jobOwner">
+				<h1>Biders</h1>
 				<div class="list card" ng-repeat="bid in jobData.bids">
-					<a class="item item-avatar item-button-right"> <img src="{{bid.picture}}">
+					<div class="item item-avatar item-button-right"> <img src="{{bid.picture}}">
+						    <button class="button button-dark">
+      <i class="icon ion-chatbubble-working"></i>
+    </button>
+
 						<h2>{{bid.name}} </h2>
 						<p>{{bid.bidDesc}}</p>
 						<p>{{bid.amount}}</p>
-						<p ng-if="userBid.accepeted == 'true' ">Accepted</p>
+						<p ng-if="bid.accepeted == 'true' ">Accepted</p>
+						
 					</a>
 					<button ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)" class="button  button-small button-positive"> Accept Bid </button>
-					<button class="button  button-small button-balanced"> Message </button>
+				
 				</div>
 			</div>
 		</div>
+		
 		<div ng-if="isAritst">
 			<div ng-if="!userBid"> <a class="button" ng-click="Bid()"> bid</a>
 				<label class="item item-input item-stacked-label"> <span class="input-label">Bid Description</span>
@@ -49,11 +66,16 @@
 				<a class="item item-avatar item-button-right"> <img src="{{userBid.picture}}">
 					<h2>{{userBid.name}} </h2>
 					<p>{{userBid.bidDesc}}</p>
-					<p>{{userBid.amount}}</p>
-					<p ng-if="userBid.accepeted == 'true' ">Accepted</p>
+					<p> Bid Amount : {{userBid.amount}}</p>
+
 				</a>
 			</div>
 		</div>
-		<div ng-if="isClient"> </div>
 	</ion-content>
+	<!--end news feed section-->
+	<!--button section-->
+	<div class="footer-fab-bar">
+		<a class="md-button md-accent md-fab fab-footer" aria-label="Add"> <i class="ion ion-plus"></i> </a>
+	</div>
+	<!--end button section-->
 </ion-view>

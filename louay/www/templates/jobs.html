@@ -1,17 +1,52 @@
-<ion-view view-title="jobs">
-	<ion-nav-buttons side="secondary">
-		<div class="buttons">
-			<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
-		</div>
-	</ion-nav-buttons>
-	<ion-content>
-		<div ng-if = "!noJobs" ng-repeat="job in userJobs">
-			<div class="card" ng-click="gotoDetail($index)">
-				<div class="item item-divider"> {{job.title}} </div>
-				<div class="item item-text-wrap"> {{job.description}} </div>
-		
-				</div>
-		</div>
-		<div ng-if="noJobs"><h3>{{noJobs}}</h3></div>
-	</ion-content>
-</ion-view>
+<!--View Information-->
+<!--View name : Online Course-->
+<!--State name : app.onlineCourse-->
+<!--URL : #app/onlineCourse-->
+
+<!--Online course section-->
+<ion-view title="jobs" id="online-course">
+    <ion-content id="online-course-content">
+        <!--toolbar section-->
+        <md-toolbar class="bar-subheader md-tall md-primary toolbar-online-course ">
+          
+
+        </md-toolbar> <!--end toolbar section-->
+        <div class="course-list">
+
+            <!--content item section-->
+            <div class="course-item" ng-repeat="job in userJobs">
+                <div class="title angular-course-background">
+                    {{job.title}} 
+                </div>
+                  
+                <div class="content">
+              
+                
+                    <h1>
+                          {{job.description}} 
+                    </h1>
+
+                    <p>
+                   categorie :  {{job.categorie}} 
+                    </p>
+
+                    <p>
+                        <a ng-click="gotoDetail($index)" class="md-raised md-button md-default-theme angular-course-background">
+                            <i class="fa fa-play"></i> Detail</a>
+                        <a href="" class="md-raised md-button md-default-theme angular-course-background">
+                            <i class="fa fa-bookmark"></i>2 biders</a>
+                    </p>
+                </div>
+            </div> <!--end content item section-->
+
+         
+           
+        </div>
+    </ion-content>
+    <div class="footer-fab-bar">
+        <a class="md-button md-accent md-fab fab-footer" aria-label="Add">
+            <i class="ion-android-star"></i>
+        </a>
+    </div>
+
+</ion-view><!--end online course section-->

@@ -338,12 +338,12 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	$scope.user = userData;
 	
 	//Options for the camera plugin
-	var options = {
+/*	var options = {
 		destinationType: Camera.DestinationType.FILE_URI,   
 		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
 		quality : 30
 	};
-
+*/
 	
   /**
   * @desc open the gallery to pick a picture
@@ -720,7 +720,6 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 .controller('jobsArtistCtrl', function($scope,Auth) {
   var uid = Auth.$getAuth().uid;
   //Check if there was any pids or jobs
-  $scope.userJobs = [];
 		firebase.database().ref("/Artist/"+uid+"/bids/")
 		.on('value',function(snapshot) {
 			if(!snapshot.val()){
@@ -730,7 +729,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			else {
 			$scope.noJobs = false;	
 			$scope.userJobs =	snapshot.val();
-			
+			console.log(	$scope.userJobs);
 			}
 		})
 			
