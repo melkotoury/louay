@@ -1,81 +1,72 @@
 <ion-view title="Job">
 	<!--news feed section-->
-	<ion-content id="news-feed-content">
-		<div class="news-item">
-			<!--header section-->
-			<div class="row header">
-				<div class="col-20"> <img src="{{currentuserMini.ProfilePicture}}" class="user-img" /> </div>
-				<div class="col-80"> <span class="name">
-                       {{currentuserMini.displayName}}
-                   </span>
-					<br/> <span class="datetime">
-                       1 hours ago
-                   </span> </div>
-			</div>
-			<!--end header section-->
-			<!--detail section-->
-			<div class="row detail">
-				<div class="col">
-					<h1>
-                       {{jobData.title}}
-                    </h1>
-					<p class="content">
-						{{jobData.description}}
-					
-						<div class="item item-avatar" ng-repeat="bid in jobData.bids"> <img src="{{bid.picture}}"> </div>
-					</p>
+ <ion-pane>
+      <ion-header-bar class="bar-dark">
+        <h1 class="title">Jobs</h1>
+		  <button class="button button-icon icon icon-left ion-chevron-left">Back</button>
+		  <button class="button button-clear white">Edit</button>
+      </ion-header-bar>
+      <ion-content>
+			<div class="list">
+				<div class="list black">
+				<img src="img/IMG_4194.JPG" class="job-img">
+				<div class="item item-avatar lol">
+                    <img class="profile-img" src="{{currentuserMini.ProfilePicture}}">
+					<h2>{{currentuserMini.displayName}}</h2>
+					<p>November 05, 1955</p><br>
+                    <div class="button-bar">
+					   <a class="button button-small button-balanced button-dark"><i class="ion ion-checkmark"></i> Bid</a>
+					</div>
 				</div>
-			</div>
-			<!--footer section-->
-			<div class="row footer">
-				<div class="col-33"> <span class="number">{{bidsCount}}</span> <span class="wording">biders</span> </div>
-				<div class="col-33"> <span class="number">{{jobData.Budget}}</span> <span class="wording">LE</span> </div>
-				<div class="col-33"> <span class="number">{{jobData.time}}</span> <span class="wording"></span> </div>
-			</div>
-			<!--end footer section-->
-		</div>
-				<div ng-if="jobOwner">
-				<h1>Biders</h1>
-				<div class="list card" ng-repeat="bid in jobData.bids">
-					<div class="item item-avatar item-button-right"> <img src="{{bid.picture}}">
-						    <button class="button button-dark">
-      <i class="icon ion-chatbubble-working"></i>
-    </button>
-
-						<h2>{{bid.name}} </h2>
-						<p>{{bid.bidDesc}}</p>
-						<p>{{bid.amount}}</p>
-						<p ng-if="bid.accepeted == 'true' ">Accepted</p>
-						
-					</a>
-					<button ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)" class="button  button-small button-positive"> Accept Bid </button>
-				
 				</div>
-			</div>
-		</div>
-		
-		<div ng-if="isAritst">
-			<div ng-if="!userBid"> <a class="button" ng-click="Bid()"> bid</a>
-				<label class="item item-input item-stacked-label"> <span class="input-label">Bid Description</span>
-					<textarea ng-model="data.bidDesc" rows="5"></textarea>
-				</label>
-				<label class="item item-input item-stacked-label"> <span class="input-label">Bid Amount</span>
-					<input ng-model="data.amount" type="text"> </label>
-			</div>
-			<div ng-if="userBid">
-				<a class="item item-avatar item-button-right"> <img src="{{userBid.picture}}">
-					<h2>{{userBid.name}} </h2>
-					<p>{{userBid.bidDesc}}</p>
-					<p> Bid Amount : {{userBid.amount}}</p>
-
-				</a>
-			</div>
-		</div>
-	</ion-content>
-	<!--end news feed section-->
-	<!--button section-->
-	<div class="footer-fab-bar">
-		<a class="md-button md-accent md-fab fab-footer" aria-label="Add"> <i class="ion ion-plus"></i> </a>
-	</div>
+				<div class="item item-body black desc">
+                    <h2>Job Title : {{jobData.title}}</h2>
+					<br>
+					<h2>Description : </h2>
+					<p>
+					{{jobData.description}}</p>
+					<br>
+					<div class="list">
+					  <div class="item item-divider">
+						<div class="row"> 
+							<div class="col-33 border-right"> <i class="icon ion-clock"></i> Duration</div>
+							<div class="col-33 border-right"> <i class="icon ion-bag"></i> Budget</div>
+							<div class="col-33"> <i class="icon ion-location"></i> Location</div>
+						</div>
+					  </div>
+						<div class="item item-divider">
+						<div class="row">
+							<div class="col-33 border-right">{{jobData.time}}Weeks</div>
+							<div class="col-33 border-right">{{jobData.Budget}}LE</div>
+							<div class="col-33">Cairo</div>
+						</div>
+					  </div>
+					</div>
+					<h2>Bidders : {{bidsCount}}</h2>
+					<div  ng-repeat="bid in jobData.bids">
+						<ion-scroll direction="x" class="item wide-item black">
+							<img src="{{bid.picture}}">
+						</ion-scroll>
+						</div>
+				</div>
+		  </div>
+		  <div class="list card">
+			  <div class="item item-body">
+			  	<h1>People :</h1>
+			  </div>
+			   <div class="item item-avatar" ng-repeat="bid in jobData.bids">
+					<img src={{bid.picture}}>
+					<h2>{{bid.name}}</h2>
+					<p>{{bid.bidDesc}}</p>
+		   		<p>{{bid.amount}}</p>
+			   	<hr>
+				   	<div class="button-bar">
+					   <a class="button button-small button-balanced"><i class="ion ion-checkmark"></i> Accept</a>
+					   <a class="button button-small button-positive"><i class="ion ion-chatboxes"></i> Message</a>
+					</div>
+			  </div>
+		  </div>
+      </ion-content>
+    </ion-pane>
 	<!--end button section-->
 </ion-view>

@@ -1,34 +1,54 @@
-<ion-view view-title="Add Job">
+ <ion-modal-view>
+    <ion-header-bar class="bar-dark">
+    <h1 class="title">Addjob</h1>
+    <div class="buttons">
+      <button ng-click="modal.hide()" class="button button-clear">Close</button>
+    </div>
+  </ion-header-bar>
+    <ion-content class="gray">
+		  <div class="list card">
+               <div class="item item-body">
+			  	<h2>Add New Job :</h2>
+			  </div>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Title</span>
+                  <input type="text" placeholder="Title">
+              </label>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Description</span>
+                  <input type="text" placeholder="Description">
+              </label>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Reference</span>
+                  <input type="text" placeholder="Reference Link">
+              </label>
+              
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Territory</span>
+                  <input type="text" placeholder="Territory">
+              </label>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Deadline</span>
+                  <input type="text" placeholder="Deadline (for delivery)">
+              </label>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Budget</span>
+                  <input type="text" placeholder="Budget">
+              </label><br>
+              <div class="list">
+                 <label class="item item-input item-select">
+                  <span class="input-label">Artist You Need</span>
+                  <select>
+                      <option>Red</option>
+                      <option>Green</option>
+                      <option>Blue</option>
+                  </select>
+              </label>
+              </div>            
+              <div class="item">
+                 <button class="button button-block button-dark">Submit</button>
+              </div>
+          </div>
+      </ion-content>
 
-	<ion-content>
-		<div class="list">
-			<label class="item item-input item-stacked-label"> <span class="input-label">Job Title</span>
-				<input ng-model="job.title" type="text"> </label>
-			<label class="item item-input item-stacked-label"> <span class="input-label">Job Description</span>
-				<textarea ng-model="job.description" rows="5"></textarea>
-			</label>
-			<label class="item item-input item-stacked-label"> <span class="input-label">job location</span>
-				<input ng-model="job.location" type="text"> </label>
-				 <label class="item item-input item-select">
-			<div class="input-label"> categorie </div>
-			<select ng-model="job.categorie">
-				<option value="Art director">Art director</option>
-				<option value="Food stylist">Food stylist</option>
-				<option value="Art director">Art director</option>
-				<option value="Food stylist">Food stylist</option>
-				<option value="Art director">Art director</option>
-				<option value="Makeup artist">Makeup artist</option>
-				<option value="Nail artist">Nail artist</option>
-				<option value="Model">Model</option>
-				<option value="Graphic designers">Graphic designers</option>
-				<option value="Animators">Animators</option>
-				<option value="3D designers">3D designers</option>
-				<option value="Film director">Film director</option>
-			</select>
-			</label>
-			<label class="item item-input item-stacked-label"> <span class="input-label">Budget</span>
-				<input ng-model="job.Budget" type="text"> </label>
-			<label class="item item-input item-stacked-label"> <span class="input-label">Time</span>
-				<input ng-model="job.time" type="text"> </label>
-		</div> <a class="button button-block button-positive" ng-click="addJob()">   add job  <i class="icon ion-arrow-right-a"></i></a> </ion-content>
-</ion-view> 
+</ion-modal-view>

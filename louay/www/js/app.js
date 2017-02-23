@@ -164,6 +164,15 @@ $stateProvider
         controller: 'jobDetailCtrl'
       }
     }
+  })
+.state('app.tfp', {
+    url: '/tfp',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/tfp.html',
+        controller: 'tfpCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/home');

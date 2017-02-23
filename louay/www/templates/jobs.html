@@ -5,48 +5,52 @@
 
 <!--Online course section-->
 <ion-view title="jobs" id="online-course">
-    <ion-content id="online-course-content">
-        <!--toolbar section-->
-        <md-toolbar class="bar-subheader md-tall md-primary toolbar-online-course ">
-          
+   
+      <ion-nav-buttons side="secondary">
+		
+		  <button ng-click="modal.show()" class="button button-clear white"> Add <i class="ion ion-plus"></i></button>
+      </ion-nav-buttons>
+      <ion-content class="gray">
+          <div class="list card">
 
-        </md-toolbar> <!--end toolbar section-->
-        <div class="course-list">
-
-            <!--content item section-->
-            <div class="course-item" ng-repeat="job in userJobs">
-                <div class="title angular-course-background">
-                    {{job.title}} 
+              <label class="item item-input item-select">
+                <div class="input-label">
+                  Categories
                 </div>
-                  
-                <div class="content">
-              
-                
-                    <h1>
-                          {{job.description}} 
-                    </h1>
+               <select ng-model="data.categorie">
+				<option value="Art director" selected>Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Food stylist">Food stylist</option>
+				<option value="Art director">Art director</option>
+				<option value="Makeup artist">Makeup artist</option>
+				<option value="Nail artist">Nail artist</option>
+				<option  value="Model">Model</option>
+				<option value="Graphic designers">Graphic designers</option>
+				<option value="Animators">Animators</option>
+				<option value="3D designers">3D designers</option>
+				<option value="Film director">Film director</option>
+			</select>
+              </label>
 
-                    <p>
-                   categorie :  {{job.categorie}} 
-                    </p>
-
-                    <p>
-                        <a ng-click="gotoDetail($index)" class="md-raised md-button md-default-theme angular-course-background">
-                            <i class="fa fa-play"></i> Detail</a>
-                        <a href="" class="md-raised md-button md-default-theme angular-course-background">
-                            <i class="fa fa-bookmark"></i>2 biders</a>
-                    </p>
-                </div>
-            </div> <!--end content item section-->
-
-         
+            </div>
            
-        </div>
-    </ion-content>
-    <div class="footer-fab-bar">
-        <a class="md-button md-accent md-fab fab-footer" aria-label="Add">
-            <i class="ion-android-star"></i>
-        </a>
-    </div>
+           <div class="list card model-info">
+			   <div class="item item-avatar">
+                   <img src="img/IMG_2087.JPG">
+                   <h2>UI/UX Designer in Facebook</h2>
+                   <p>November 05, 1955</p><hr>
+                   <p>This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
+					the content is from a card-body consisting of an image and paragraph text. The footer
+						consists of tabs, icons aligned left, within the card-footer.</p>
+                      <div class="col-33 col-offset-67 gray"><button class="button button-small button-clear button-positive">
+                      See more..
+                    </button>
+                    </div>
+			  </div>
+		  </div>
+      </ion-content>
+   
+
 
 </ion-view><!--end online course section-->

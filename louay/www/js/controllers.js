@@ -615,7 +615,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	
 })
 
-.controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicPopover) {
+.controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicModal) {
 
 	
 	var uid = Auth.$getAuth().uid;
@@ -624,15 +624,15 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	  $scope.keys = Object.keys($scope.userJobs);
 	  $state.go("app.jobDetail",{posterId:uid ,JobId:$scope.keys[index]});
   }	
-  $scope.popover = $ionicPopover.fromTemplateUrl("templates/jobOptions.html", {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
+  $scope.popover = $ionicModal.fromTemplateUrl("templates/addjobs.html", {
+    scope: $scope,
+	  animation: 'slide-in-up'
+
+  }).then(function(modal) {
+    $scope.modal = modal;
   });
 
-	 $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-	 };
+	
  function getJobs(){
 		firebase.database().ref("/jobs/"+uid+"/")
 		.on('value',function(snapshot) {
@@ -677,7 +677,10 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			postedBy:uid,
 			jobKey : newPostKey,
 			title:$scope.job.title,
-			description : $scope.job.description
+			description : $scope.job.description,
+			posterName: $scope.currentuserMini.displayName,
+			posterPicture :$scope.currentuserMini.ProfilePicture,
+			postedTime : d.getTime()
 			
 		})
 		
@@ -688,7 +691,10 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			description : $scope.job.description,
 			categorie : $scope.job.categorie,
 			Budget : $scope.job.Budget,
-			time : $scope.job.time
+			time : $scope.job.time,
+			posterName: $scope.currentuserMini.displayName,
+			posterPicture :$scope.currentuserMini.ProfilePicture,
+			postedTime : d.getTime()
 		})
 		.then(function(){
 			
@@ -864,5 +870,74 @@ $scope.acceptBid = function(bider){
 	//Accept Bid 
 	
 	
+	
+})
+
+
+.controller('tfpCtrl', function($scope,Auth,$ionicLoading,userProfile) {
+ 	
+	var uid = Auth.$getAuth().uid;
+		
+
+	var d = new Date()
+$scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
+	
+	userProfile.currentMiniData()
+			.then(function(data){
+			$scope.currentuserMini = data;	 
+		});
+	$scope.addTfp = function(){
+	$ionicLoading.show({
+				template: 'Loading...',
+			})
+	 var newPostKey = firebase.database().ref().child("/tfp/"+uid+"/").push().key;
+    
+		firebase.database().ref("/categoriesfp/"+$scope.job.categorie+"/"+newPostKey)
+      .set({
+			postedBy:uid,
+			jobKey : newPostKey,
+			title:$scope.tfp.title,
+			description : $scope.tfp.description,
+			postedTime : d.getTime()
+		})
+		
+		firebase.database().ref("/tfp/"+uid+"/"+newPostKey)
+		.set({
+			postedBy:uid,
+			title:$scope.tfp.title,
+			description : $scope.tfp.description,
+			categorie : $scope.tfp.categorie,
+			location : $scope.tfp.loction,
+			duration : $scope.tfp.duration,
+			reference :  $scope.tfp.reference,
+			posterName: $scope.currentuserMini.displayName,
+			posterPicture :$scope.currentuserMini.ProfilePicture,
+			postedTime : d.getTime()
+		})
+		.then(function(){
+			
+				$ionicLoading.hide();
+				$ionicPopup.confirm({
+					  title: "TFP",
+					  template: "TFP added",
+						buttons:[{text: 'Ok'}]
+					});
+					
+				  $state.go("app.jobs");
+				})
+				.catch(function(error){
+					//TODO ALERT THE USER
+					$ionicLoading.hide()
+				
+					$ionicPopup.confirm({
+					  title: ' Signup error',
+					  template: error.message,
+						buttons:[{text: 'Ok'}]
+					});
+					console.log("error in adding to firebase");		 
+					return error;
+				})	
+	}
+
 	
 })
