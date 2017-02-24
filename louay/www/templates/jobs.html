@@ -6,44 +6,42 @@
 <!--Online course section-->
 <ion-view title="jobs" id="online-course">
    
-      <ion-nav-buttons side="secondary">
+      <ion-nav-buttons  side="secondary">
 		
-		  <button ng-click="modal.show()" class="button button-clear white"> Add <i class="ion ion-plus"></i></button>
+		  <button ng-if="isClient" ng-click="modal.show()" class="button button-clear white"> Add <i class="ion ion-plus"></i></button>
       </ion-nav-buttons>
       <ion-content class="gray">
-          <div class="list card">
-
+             <div class="list card" ng-if="isAritst" >
+           
               <label class="item item-input item-select">
                 <div class="input-label">
                   Categories
                 </div>
-               <select ng-model="data.categorie">
+               <select ng-change="search()" ng-model="job.categorie">
 				<option value="Art director" selected>Art director</option>
-				<option value="Food stylist">Food stylist</option>
-				<option value="Art director">Art director</option>
-				<option value="Food stylist">Food stylist</option>
-				<option value="Art director">Art director</option>
-				<option value="Makeup artist">Makeup artist</option>
-				<option value="Nail artist">Nail artist</option>
-				<option  value="Model">Model</option>
-				<option value="Graphic designers">Graphic designers</option>
-				<option value="Animators">Animators</option>
-				<option value="3D designers">3D designers</option>
-				<option value="Film director">Film director</option>
+				<option value="Food stylist" >Food stylist</option>
+				<option value="Art director" >Art director</option>
+				<option value="Food stylist" >Food stylist</option>
+				<option value="Art director" >Art director</option>
+				<option value="Makeup artist" >Makeup artist</option>
+				<option value="Nail artist" >Nail artist</option>
+				<option  value="Model" >Model</option>
+				<option value="Graphic designers" >Graphic designers</option>
+				<option value="Animators" >Animators</option>
+				<option value="3D designers" >3D designers</option>
+				<option value="Film director" >Film director</option>
 			</select>
               </label>
 
             </div>
            
-           <div class="list card model-info">
-			   <div class="item item-avatar">
-                   <img src="img/IMG_2087.JPG">
-                   <h2>UI/UX Designer in Facebook</h2>
-                   <p>November 05, 1955</p><hr>
-                   <p>This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
-					the content is from a card-body consisting of an image and paragraph text. The footer
-						consists of tabs, icons aligned left, within the card-footer.</p>
-                      <div class="col-33 col-offset-67 gray"><button class="button button-small button-clear button-positive">
+           <div class="list card model-info" ng-repeat="job in userJobs">
+			   <div class="item item-avatar" >
+                   <img src="{{job.posterPicture}}">
+                   <h2>{{job.title}}</h2>
+                   <p>{{job.postedTime|date : 'short'}}</p><hr>
+                   <p>{{job.description}}</p>
+                      <div class="col-33 col-offset-67 gray"><button ng-click="gotoDetail($index)" class="button button-small button-clear button-positive">
                       See more..
                     </button>
                     </div>

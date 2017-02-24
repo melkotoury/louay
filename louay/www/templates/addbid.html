@@ -1,0 +1,24 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-dark">
+		<h1 class="title">Addbid</h1>
+		<div class="buttons">
+			<button ng-click="modal.hide()" class="button button-clear">Close</button>
+		</div>
+	</ion-header-bar>
+<ion-content class="gray">
+		  <div class="list card">
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Bid Description</span>
+                  <input ng-model="data.bidDesc" type="text" placeholder="Bid Description">
+              </label>
+              <label class="item item-input item-floating-label">
+                  <span class="input-label">Bid Ammount</span>
+                  <input ng-model="data.amount" type="text" placeholder="Bid Ammount">
+              </label>
+          </div>
+          <div class="item">
+				<button ng-click="Bid()" class="button button-block button-dark">Submit</button>
+			</div>
+      </ion-content>
+
+</ion-modal-view>

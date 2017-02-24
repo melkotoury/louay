@@ -616,25 +616,62 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 })
 
 .controller('jobsCtrl', function($scope,userProfile,$state,$ionicLoading,$ionicPopup,Auth,$ionicModal) {
-
+	var d = new Date();
 	
 	var uid = Auth.$getAuth().uid;
 	//Get the user jobs 
-	   $scope.gotoDetail = function (index){
-	  $scope.keys = Object.keys($scope.userJobs);
-	  $state.go("app.jobDetail",{posterId:uid ,JobId:$scope.keys[index]});
-  }	
-  $scope.popover = $ionicModal.fromTemplateUrl("templates/addjobs.html", {
-    scope: $scope,
-	  animation: 'slide-in-up'
-
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
+	//send the user to the job detail  
 	
+	$scope.gotoDetail = function (index){
+		$scope.keys = Object.keys($scope.userJobs);
+		 var target = $scope.keys[index];
+		if ($scope.userJobs[target].jobKey){
+		
+			$state.go("app.jobDetail",{posterId:$scope.userJobs[target].postedBy,JobId:$scope.userJobs[target].jobKey});
+		}
+		
+		else{
+			$state.go("app.jobDetail",{posterId:uid ,JobId:$scope.keys[index]});
+		
+		}
+		
+	}
+	
+	//popover for adding the job 
+ 
+	$scope.popover = $ionicModal.fromTemplateUrl("templates/addjobs.html", {
+		scope: $scope,
+		animation: 'slide-in-up'
+  
+	})
+		.then(function(modal) {
+    
+		$scope.modal = modal;
+  
+	});
+//If the user is a client get its posted jobs
  function getJobs(){
-		firebase.database().ref("/jobs/"+uid+"/")
+	 firebase.database().ref("/jobs/"+uid+"/")
+		 .on('value',function(snapshot) {
+		 if(!snapshot.val()){
+			 $scope.noJobs = "You don't have jobs currently";
+		 }
+		 else {
+			 $scope.noJobs = false;	
+		
+			 $scope.$apply(function(){
+				 $scope.userJobs = snapshot.val();
+				})
+		 }
+		 
+		 console.log($scope.userJobs);
+		 console.log($scope.noJobs);	
+	 
+	 })
+	
+ }
+	function getJobsArtist (){
+	firebase.database().ref("/Artist/"+uid+"/bids/")
 		.on('value',function(snapshot) {
 			if(!snapshot.val()){
 				$scope.noJobs = "You don't have jobs currently";
@@ -642,30 +679,46 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			}
 			else {
 			$scope.noJobs = false;	
-			$scope.userJobs =	snapshot.val();
+			$scope.artist = snapshot.val();
+			console.log(	$scope.userJobs);
 			}
-				console.log($scope.userJobs);
-				console.log($scope.noJobs);
-				
-				
-				
 		})
 	}
 	
-	getJobs();
+	$scope.search =function (){
+  
+		var ref =	firebase.database().ref("/categories/"+$scope.job.categorie)
+		ref.once("value").then(function(snapshot){
+			console.log(snapshot.val());
+			$scope.noJobs = false;	
+				$scope.$apply(function(){
+				 $scope.userJobs = snapshot.val();
+				})
+			 console.log($scope.userJobs);
+		})
+	}
 	
+	//Get the user mini data
 	userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
+		
+	if($scope.currentuserMini.AccountType == "Artist"){
+		
+		$scope.isAritst = true;
+		getJobsArtist ();
+	}
+		else {
+			$scope.isClient = true;
+		  	 getJobs();
+		}
 		 
 	});
-	$scope.job = {title:"",description:"",categorie:"",Budget:"",time:""}
 	
-	$scope.goToAddjob = function(){
-		
-		$state.go("app.addjobs");
-		
-	}
+	//for the job adding
+	$scope.job = {title:"",description:"",categorie:"",Budget:"",time:"",location:"",ref:""}
+	
+	//adds the job to fire thebase
 	$scope.addJob = function(){
 			$ionicLoading.show({
 				template: 'Loading...',
@@ -694,18 +747,20 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 			time : $scope.job.time,
 			posterName: $scope.currentuserMini.displayName,
 			posterPicture :$scope.currentuserMini.ProfilePicture,
-			postedTime : d.getTime()
+			postedTime : d.getTime(),
+			location : $scope.job.location,
+			ref :$scope.job.ref
 		})
 		.then(function(){
 			
 				$ionicLoading.hide();
 				$ionicPopup.confirm({
 					  title: "Sign up",
-					  template: "user created",
+					  template: "job added",
 						buttons:[{text: 'Ok'}]
 					});
-					
-				  $state.go("app.jobs");
+					  $scope.modal.remove();
+			
 				})
 				.catch(function(error){
 					//TODO ALERT THE USER
@@ -726,18 +781,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 .controller('jobsArtistCtrl', function($scope,Auth) {
   var uid = Auth.$getAuth().uid;
   //Check if there was any pids or jobs
-		firebase.database().ref("/Artist/"+uid+"/bids/")
-		.on('value',function(snapshot) {
-			if(!snapshot.val()){
-				$scope.noJobs = "You don't have jobs currently";
-				
-			}
-			else {
-			$scope.noJobs = false;	
-			$scope.userJobs =	snapshot.val();
-			console.log(	$scope.userJobs);
-			}
-		})
+	
 			
 
 	
@@ -745,22 +789,13 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	$scope.data = {categorie:""}
 //find jobs 
 		
-	$scope.search =function (){
- 
-		var ref =	firebase.database().ref("/categories/"+$scope.data.categorie)
-		ref.once("value").then(function(snapshot){
-			console.log(snapshot.val());
-			$scope.noJobs = false;	
-			$scope.userJobs =	snapshot.val();
-		})
-	}
 	
 
 })
 
 
 
-.controller('jobDetailCtrl', function($scope,Auth,$stateParams,userProfile) {
+.controller('jobDetailCtrl', function($scope,Auth,$stateParams,userProfile,$ionicModal) {
 	//Get the user ID
 	var uid = Auth.$getAuth().uid;
 	// get the user MiniPorfile data
@@ -768,7 +803,16 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		.then(function(data){
 		$scope.currentuserMini = data;	 
 	});
+  $scope.popover = $ionicModal.fromTemplateUrl("templates/addbid.html", {
+		scope: $scope,
+		animation: 'slide-in-up'
   
+	})
+		.then(function(modal) {
+    
+		$scope.modal = modal;
+  
+	});
 	//Get the job Data
 	firebase.database().ref("/jobs/"+$stateParams.posterId+"/"+$stateParams.JobId)
 	.on("value",function(snapshot){
@@ -777,7 +821,6 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		
 			//counting Bids
 	if($scope.jobData.hasOwnProperty("bids"))
-	
 		$scope.bidsCount =Object.keys($scope.jobData.bids).length;
 		else
 			$scope.bidsCount = 0;
@@ -797,10 +840,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 		
 	//Check if the user Bided if ues show the bid if not not display the add bid
 		if(Object.keys($scope.jobData.bids).indexOf(uid) != -1){
-			$scope.userBid = $scope.jobData.bids[uid];
-			  
-		
-			
+			$scope.userBid = $scope.jobData.bids[uid];	
 		}
 			
 	})
@@ -845,6 +885,8 @@ $scope.acceptBid = function(bider){
 			Title :$scope.jobData.title,
 			description : $scope.jobData.description,
 			postedby:$stateParams.posterId,
+			postedTime : $scope.jobData.postedTime,
+			posterPicture: $scope.jobData.posterPicture,
 			accepeted : "false"
 		})
 		
