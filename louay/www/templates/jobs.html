@@ -37,7 +37,8 @@
            
            <div class="list card model-info" ng-repeat="job in userJobs">
 			   <div class="item item-avatar" >
-                   <img src="{{job.posterPicture}}">
+                  
+					<a href="#/app/profile/Client/{{job.postedBy}}">  <img src="{{job.posterPicture}}"> </a>
                    <h2>{{job.title}}</h2>
                    <p>{{job.postedTime|date : 'short'}}</p><hr>
                    <p>{{job.description}}</p>

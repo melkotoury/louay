@@ -16,13 +16,13 @@
   
     <ion-content >
     <div class="material-background" id="toggle-menu-left-header">
-     <div class="menu-left-header">
+     <div class="menu-left-header menuAvatar " >
                 <img class="user-img" src="{{currentuserMini.ProfilePicture}}">
 
                 <p>
-                    <span class="title">{{currentuserMini.displayName}}</span>
+                    <span class="menutext">{{currentuserMini.displayName}}</span>
                     <br/>
-                    <span class="sub-title"> {{currentuserMini.AccountType}}</span>
+                    <span class="menutext"> {{currentuserMini.AccountType}}</span>
                 </p>
             </div><!--end menu header section-->
    
@@ -34,7 +34,7 @@
         <ion-item menu-close href="#/app/home">
          <i class="icon ion-home"></i> Home
         </ion-item>
-        <ion-item menu-close href="#/app/jobs"> >
+        <ion-item menu-close href="#/app/jobs"> 
        <i class="icon ion-document-text"></i>   Jobs
         </ion-item>
         <ion-item menu-close href="#/app/tfp">

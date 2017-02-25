@@ -982,4 +982,36 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	}
 
 	
+}).controller('ProfileCtrl',function($scope,Auth,userProfile,$stateParams){
+	          
+ 	var uid = Auth.$getAuth().uid;
+	 $scope.showAbout = true;
+	userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
+		.once('value').then(function(snapshot) { 
+		$scope.profileData = snapshot.val();
+		if(uid == $stateParams.ID)
+			$scope.canUpdate = true;
+		console.log(snapshot.val());		
+	})
+
+	
+	//controlling the tabs
+	$scope.profileTabs = function(state){
+		$scope.tab = state;
+      
+		if(state == "yard"){
+			$scope.showYard = true;
+		   $scope.showAbout = false;
+		}
+		else 
+			{
+					$scope.showYard = false;
+		   		$scope.showAbout = true;
+			}
+	}
+	
+	$scope.isSelected = function (checkTab) {
+			return ($scope.tab === checkTab);
+		};
+	
 })
