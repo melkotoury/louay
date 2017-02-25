@@ -913,7 +913,7 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	}
 
 	
-}).controller('ProfileCtrl',function($scope,Auth,userProfile,$stateParams){
+}).controller('ProfileCtrl',function($scope,Auth,userProfile,$stateParams,$cordovaCamera,$ionicPopup){
 	          
  	var uid = Auth.$getAuth().uid;
 	 $scope.showAbout = true;
@@ -948,6 +948,7 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	
 	
 	$scope.addImage = function() {
+		
 		var options = {
 		destinationType: Camera.DestinationType.FILE_URI,   
 		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
@@ -975,24 +976,27 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
 			       //save it to the PhotoURI
 					  
-						if($scope.currentuserfull.profilePictures){
+						if($scope.profileData.profilePictures){
 
 							var storageRef = firebase.storage()
-							.ref("userpictures/"+Auth.$getAuth().uid+"/"+$scope.currentuserfull.profilePictures.length+".jpeg");
+							.ref("userpictures/"+Auth.$getAuth().uid+"/"+$scope.profileData.profilePictures.length+".jpeg");
 
 						}
 						else {
-							$scope.currentuserfull.profilePictures = [];
+							
+							$scope.profileData.profilePictures = [];
 							var storageRef = firebase.storage()
-							.ref("userpictures/"+Auth.$getAuth().uid+"/0.jpeg");
+							.ref("userpictures/"+$stateParams.ID+"/0.jpeg");
 						}
+					  console.log(storageRef)
 					  var task = storageRef.put(blob)
 						task.then(function(data){
 							//add it to the user
-							$scope.currentuserfull.profilePictures.push(data.downloadURL)   
-							updatePicutres()
+							console.log(data.downloadURL);
+							$scope.profileData.push(data.downloadURL)   
+								  updatePicutres()
 						})
-				  
+			
 				  };
 
 				  reader.readAsArrayBuffer(file);
@@ -1007,10 +1011,22 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 						
 		  });
  
-	  });
-		
-			
-		
+	  });	
 	}
-	
+	function updatePicutres (){
+	 console.log($scope.profileData.profilePictures);
+		var userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
+
+			.update({
+				profilePictures : $scope.profileData.profilePictures
+			}).then(function(){
+				$ionicPopup.confirm({
+					title: "Sign up",
+					template: "user created",
+					buttons:[{text: 'Ok'}]
+				});
+			}).catch(function(error){
+				console.log(error);
+			}) 
+	}
 })

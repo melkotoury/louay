@@ -30,8 +30,7 @@
               <div class="row ">
 
                   <div ng-repeat="picture in profileData.profilePictures" class="col-33 images"><img src="{{picture}}"></div>
-                  <div ng-repeat="picture in profileData.profilePictures" class="col-33 images"><img src="{{picture}}"></div>
-                  <div class="col-33 add-image"><a>
+                  <div ng-click="addImage()" class="col-33 add-image"><a>
                       <i class="icon ion-plus"></i>
                       </a>
                   </div>
