@@ -12,28 +12,22 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	 	$state.go("intro");	
 
  });
-	
+		var uid = Auth.$getAuth().uid;
    userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
+	
 	});
 
   
 	
 	$scope.myprofile = function(){
-		 $ionicHistory.nextViewOptions({		
+		/* $ionicHistory.nextViewOptions({		
 				 disableBack: true			 
 			 });
-		$state.go("app.profile");
-		userProfile.fullCurrentProfile($scope.currentuserMini.AccountType)
-			.then(function(data){
-			$scope.currentuserfull = data;	
-			console.log($scope.currentuserfull);
-
-			if(Auth.$getAuth().uid == $scope.currentuserfull.UID)
-					$scope.canUpdate = true;
-	
-		});
+		*/
+		$state.go("app.profile",{type:$scope.currentuserMini.AccountType,ID:uid});
+		
 	}
 	
 	$scope.goJobs = function(){
