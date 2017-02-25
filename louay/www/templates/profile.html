@@ -28,17 +28,14 @@
         
           <div ng-show="showYard" class="nav-content">
               <div class="row ">
-                  <div class="col-33 images"><img src="img/2.jpg"></div>
-                  <div class="col-33 images"><img src="img/2.jpg"></div>
-                  <div class="col-33 images"><img src="img/2.jpg"></div>
+                  <div ng-repeat="picture in profileData.profilePictures" class="col-33 images"><img src="{{picture}}"></div>
+                  
               </div>
-              <div class="row">
-                  <div class="col-33 images"><img src="img/2.jpg"></div>
-                  <div class="col-33 add-image"><a>
+             
+                <div class="col-33 add-image"><a>
                       <i class="icon ion-plus"></i>
                       </a>
                   </div>
-              </div>
           </div>
               <div ng-show="showAbout">{{state}}</div>
                 <div class="tabs tabs-icon-only">

@@ -22,10 +22,10 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
   
 	
 	$scope.myprofile = function(){
-		/* $ionicHistory.nextViewOptions({		
+		$ionicHistory.nextViewOptions({		
 				 disableBack: true			 
 			 });
-		*/
+		
 		$state.go("app.profile",{type:$scope.currentuserMini.AccountType,ID:uid});
 		
 	}
