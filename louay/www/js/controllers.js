@@ -45,70 +45,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 		}
 	}
 	
-	$scope.addImage = function() {
-		var options = {
-		destinationType: Camera.DestinationType.FILE_URI,   
-		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-		quality : 30
-	};
-		
-			//call the plugin
-	  $cordovaCamera.getPicture(options).then(function(imageURI) {
-		 //push to the picture array the picture to display 
-		  $scope.image = imageURI;
-		 
-		
-        //creting a file enrty with the correct path
-		  window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
-     
-			  fileEntry.file(function (file) {
-              //read the file data
-				  var reader = new FileReader();
-      
-				  reader.onloadend = function () {
-        
-					  // This blob object can be saved to firebase
-         
-					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
-			       //save it to the PhotoURI
-					  
-						if($scope.currentuserfull.profilePictures){
-
-							var storageRef = firebase.storage()
-							.ref("userpictures/"+Auth.$getAuth().uid+"/"+$scope.currentuserfull.profilePictures.length+".jpeg");
-
-						}
-						else {
-							$scope.currentuserfull.profilePictures = [];
-							var storageRef = firebase.storage()
-							.ref("userpictures/"+Auth.$getAuth().uid+"/0.jpeg");
-						}
-					  var task = storageRef.put(blob)
-						task.then(function(data){
-							//add it to the user
-							$scope.currentuserfull.profilePictures.push(data.downloadURL)   
-							updatePicutres()
-						})
-				  
-				  };
-
-				  reader.readAsArrayBuffer(file);
-			
-			  });
-
-						  
-		  }, function (error) {
-					  $ionicLoading.hide()
-						 console.log(error)
-
-						
-		  });
- 
-	  });
-		
-			
-		
-	}
+	
 	
 	$scope.logout=function(){
 	
@@ -1007,5 +944,73 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	$scope.isSelected = function (checkTab) {
 			return ($scope.tab === checkTab);
 		};
+	
+	
+	
+	$scope.addImage = function() {
+		var options = {
+		destinationType: Camera.DestinationType.FILE_URI,   
+		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+		quality : 30,
+		allowEdit : true
+	};
+		
+			//call the plugin
+	  $cordovaCamera.getPicture(options).then(function(imageURI) {
+		 //push to the picture array the picture to display 
+		  $scope.image = imageURI;
+		 
+		
+        //creting a file enrty with the correct path
+		  window.resolveLocalFileSystemURL(imageURI, function (fileEntry) {
+     
+			  fileEntry.file(function (file) {
+              //read the file data
+				  var reader = new FileReader();
+      
+				  reader.onloadend = function () {
+        
+					  // This blob object can be saved to firebase
+         
+					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
+			       //save it to the PhotoURI
+					  
+						if($scope.currentuserfull.profilePictures){
+
+							var storageRef = firebase.storage()
+							.ref("userpictures/"+Auth.$getAuth().uid+"/"+$scope.currentuserfull.profilePictures.length+".jpeg");
+
+						}
+						else {
+							$scope.currentuserfull.profilePictures = [];
+							var storageRef = firebase.storage()
+							.ref("userpictures/"+Auth.$getAuth().uid+"/0.jpeg");
+						}
+					  var task = storageRef.put(blob)
+						task.then(function(data){
+							//add it to the user
+							$scope.currentuserfull.profilePictures.push(data.downloadURL)   
+							updatePicutres()
+						})
+				  
+				  };
+
+				  reader.readAsArrayBuffer(file);
+			
+			  });
+
+						  
+		  }, function (error) {
+					  $ionicLoading.hide()
+						 console.log(error)
+
+						
+		  });
+ 
+	  });
+		
+			
+		
+	}
 	
 })
