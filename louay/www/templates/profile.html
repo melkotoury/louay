@@ -1,11 +1,11 @@
 <ion-view view-title="profile">
 			<div class="list">
 				<div class="list black user-profile">
-				<img src="img/IMG_6991-2_geqndu.jpg" class="job-img">
+				<img src="http://cdn30.us1.fansshare.com/image/blackandwhite/black-and-white-city-bird-people-black-and-white-227371976.jpg" class="job-img">
                     <div class="item item-avatar lol">
-                        <img class="profile-img" src="img/logo.png">
-                        <h2>Louay Nasser</h2>
-                        <p>UI/UX Designer <br>November 05, 1955</p><br>
+                        <img class="profile-img" src="{{profileData.ProfilePicture}}">
+                        <h2>{{profileData.displayName}}</h2>
+                        <span  ng-repeat="cat in profileData.Catgories">{{cat}}</span> , </div>
                     </div>
                 </div>
           </div>
