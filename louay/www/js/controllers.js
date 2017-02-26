@@ -9,7 +9,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
  $scope.$on('$ionicView.enter', function(e,data) {
 	
  if(localStorage.getItem("Sawintro")!="true")
-	 	$state.go("intro");	
+	 $state.go("app.home");	
 
  });
 		if(Auth.$getAuth()) 
@@ -102,9 +102,10 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 
 
-.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory) {
+.controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory,$ionicSideMenuDelegate) {
    // holds the user data
-	
+	    $ionicSideMenuDelegate.toggleLeft();
+
 	$scope.user = {email:"",password:""}
 	
 	// holds the Message erros to appear under each input 
@@ -251,11 +252,13 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 	$scope.skip = function(){
 		localStorage.setItem("Sawintro", "true");
-		$state.go("app.login");	
+		$state.go("app.home");	
 	}
+		
 		
 $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
   // data.slider is the instance of Swiper
+	$ionicSideMenuDelegate.toggleRight();
   		$scope.slider = data.slider;
 });
 
@@ -268,7 +271,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 	    //Set the sawintro item to true in the local storage , route the user to the login page 
 	function goLogIn(){
 		localStorage.setItem("Sawintro", "true");
-			$state.go("app.login");	
+			$state.go("app.home");	
 	}
 
 });
@@ -471,7 +474,10 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					});
 				
 					$ionicLoading.hide()
-				 
+				 	$ionicHistory.nextViewOptions({		
+						disableBack: true			 
+					});
+	
 					$state.go("app.home");
 				    
 				
@@ -515,10 +521,12 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				$ionicLoading.hide();
 				$ionicPopup.confirm({
 					  title: "Sign up",
-					  template: "user created",
+					  template: "User created",
 						buttons:[{text: 'Ok'}]
 					});
-					
+					$ionicHistory.nextViewOptions({		
+						disableBack: true			 
+					});
 				  $state.go("app.home");
 				})
 				.catch(function(error){

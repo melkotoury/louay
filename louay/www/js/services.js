@@ -29,7 +29,7 @@ angular.module('starter.services', ["firebase","ngCordova"])
 				  	Shootnudes:"",
 				  	Tattoos:"",
 				  	Piercings:"",
-				  	PhotoURI:"",
+				  	PhotoURI:"https://team.org/static/images/generic_avatar_300.gif",
 				  	UID:"",
 				  	Provider:"",
 				  	Gender:"",
