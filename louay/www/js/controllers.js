@@ -167,7 +167,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.UID = firebaseUser.uid;
 					userData.displayName = firebaseUser.displayName;
 					userData.email   = firebaseUser.email;
-					userData.SPP = firebaseUser.photoURL;
+					userData.PP = firebaseUser.photoURL;
 					$ionicLoading.hide();
 					 $state.go("app.signup");
 				}
@@ -281,23 +281,23 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
  
 	$scope.user = userData;
 	
-	//Options for the camera plugin
-/*	var options = {
-		destinationType: Camera.DestinationType.FILE_URI,   
-		sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-		quality : 30
-	};
-*/
 	
+
   /**
   * @desc open the gallery to pick a picture
   * 
   */
-  $scope.image = $scope.user.SPP;
+  $scope.image = $scope.user.PP;
 
 	$scope.addImage = function() {
 		//call the plugin
-
+	//Options for the camera plugin
+		var options = {
+			destinationType: Camera.DestinationType.FILE_URI,   
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+			quality : 30,
+			allowEdit : true
+		};
 	  $cordovaCamera.getPicture(options).then(function(imageURI) {
 		 //set the picture to display 
 		  $scope.image = imageURI;
@@ -457,8 +457,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				   EyeColor:$scope.user.EyeColor,
 				  	Shootnudes:$scope.user.Shootnudes,
 				  	Tattoos:$scope.user.Tattoos,
-				   ProfilePicture :$scope.user.pp,
-				   SProfilePicture : $scope.user.SPP
+				   ProfilePicture :$scope.user.pp
 				})
 				.then(function(){
 						
@@ -508,8 +507,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					UID:UID,
 					Provider:$scope.user.Provider,
 					Gender:$scope.user.Gender,
-				   ProfilePicture :$scope.user.pp,
-					SProfilePicture : $scope.user.SPP
+				   ProfilePicture :$scope.user.pp
 				})
 				.then(function(){
 				$ionicLoading.hide();
