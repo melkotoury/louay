@@ -20,7 +20,16 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	
 	});
 
-  
+  Auth.$onAuthStateChanged(function(firebaseUser) {
+      userProfile.currentMiniData()
+		.then(function(data){
+		$scope.currentuserMini = data;
+	
+	});
+
+		console.log(scope.currentuserMini);
+		
+	});
 	
 	$scope.myprofile = function(){
 		$ionicHistory.nextViewOptions({		
