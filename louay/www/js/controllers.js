@@ -167,7 +167,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.UID = firebaseUser.uid;
 					userData.displayName = firebaseUser.displayName;
 					userData.email   = firebaseUser.email;
-					userData.PP = firebaseUser.photoURL;
+					userData.PhotoURI = firebaseUser.photoURL;
 					$ionicLoading.hide();
 					 $state.go("app.signup");
 				}
@@ -287,7 +287,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   * @desc open the gallery to pick a picture
   * 
   */
-  $scope.image = $scope.user.PP;
+  $scope.image = $scope.user.PhotoURI;
 
 	$scope.addImage = function() {
 		//call the plugin
