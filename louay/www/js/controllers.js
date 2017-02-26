@@ -13,6 +13,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
  });
 		var uid = Auth.$getAuth().uid;
+	//move to reslolve
    userProfile.currentMiniData()
 		.then(function(data){
 		$scope.currentuserMini = data;
@@ -50,6 +51,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	$scope.logout=function(){
 	
 		Auth.$signOut();
+		$scope.currentuserMini = null;
 		$state.go("app.login");	
 	
 	}
@@ -67,6 +69,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 				});
 			}).catch(function(error){
 				console.log(error);
+				
 			}) 
 	}
 })
@@ -992,9 +995,10 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 					  var task = storageRef.put(blob)
 						task.then(function(data){
 							//add it to the user
-							console.log(data.downloadURL);
-							$scope.profileData.push(data.downloadURL)   
-								  updatePicutres()
+							
+							$scope.profileData.profilePictures.push(data.downloadURL)
+								
+							$scope.$apply($scope.profileData.profilePictures);
 						})
 			
 				  };
@@ -1012,21 +1016,17 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 		  });
  
 	  });	
+	
 	}
-	function updatePicutres (){
-	 console.log($scope.profileData.profilePictures);
+	
+	   $scope.$watch('profileData.profilePictures.length', function() {
+         console.log($scope.profileData.profilePictures);
 		var userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
 
 			.update({
 				profilePictures : $scope.profileData.profilePictures
-			}).then(function(){
-				$ionicPopup.confirm({
-					title: "Sign up",
-					template: "user created",
-					buttons:[{text: 'Ok'}]
-				});
-			}).catch(function(error){
-				console.log(error);
 			}) 
-	}
+    });
+
+
 })
