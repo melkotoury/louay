@@ -79,7 +79,7 @@ angular.module('starter.services', ["firebase","ngCordova"])
 		}
 		
 		
-			userprofile.MiniData = function(currentUserID){ 
+			userprofile.MiniData = function(ID){ 
 			 var deferred = $q.defer();
 			userref = firebase.database().ref("/users/"+ID)
 		

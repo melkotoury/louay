@@ -10,16 +10,17 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	
  if(localStorage.getItem("Sawintro")!="true")
 	 	$state.go("intro");	
-
+  
  });
 		var uid = Auth.$getAuth().uid;
 	//move to reslolve
-   userProfile.currentMiniData()
+ 
+userProfile.MiniData(uid)
 		.then(function(data){
 		$scope.currentuserMini = data;
+	  console.log( data)
 	
 	});
-
   
 	
 	$scope.myprofile = function(){
