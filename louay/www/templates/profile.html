@@ -1,14 +1,14 @@
 <ion-view view-title="profile">
-			<div class="list">
-				<div class="list black user-profile">
-				<img src="http://cdn30.us1.fansshare.com/image/blackandwhite/black-and-white-city-bird-people-black-and-white-227371976.jpg" class="job-img">
-                    <div class="item item-avatar lol">
-                        <img class="profile-img" src="{{profileData.ProfilePicture}}">
-                        <h2>{{profileData.displayName}}</h2>
-                        <span  ng-repeat="cat in profileData.Catgories">{{cat}}</span> , </div>
-                    </div>
-                </div>
-          </div>
+    <div class="list">
+        <div class="list black user-profile">
+            <img src="http://cdn30.us1.fansshare.com/image/blackandwhite/black-and-white-city-bird-people-black-and-white-227371976.jpg" class="job-img">
+            <div class="item item-avatar lol tag">
+                <img class="profile-img" src="{{profileData.ProfilePicture}}">
+                <h2>{{profileData.displayName}}</h2>
+                <div class="titles"><span  ng-repeat="cat in profileData.Catgories">{{cat}}</span> </div>
+            </div>
+        </div>
+    </div>
           
           <div class="tabs tabs-striped tabs-top  nav-tabs">
               <a class="tab-item" ng-class="{active:isSelected('About')}" ng-click="profileTabs('About')"  >
