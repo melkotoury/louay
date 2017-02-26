@@ -314,8 +314,17 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
          
 					  var blob = new Blob([this.result], { type: "image/jpeg" });                  
 			       //save it to the PhotoURI
-					  $scope.user.PhotoURI = blob;
+			
+					  var rand = Math.random().toString(36).substring(7);
+					  
+					var storageRef = firebase.storage().ref("profilepicture/"+rand+".jpeg");
+						 var task = storageRef.put(blob)
 
+							task.then(function(snapshot){
+									$scope.image = snapshot.downloadURL;
+								 $scope.user.PhotoURI = snapshot.downloadURL
+								console.log($scope.user.PhotoURI )
+							});
       
 				  };
       
@@ -415,20 +424,13 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
   *  @prams UID - user ID
   */
 	function adduser (UID){
-	  if($scope.user.Provider == "email"){
-		 var storageRef = firebase.storage().ref("profilepicture/"+UID+".jpeg");
-		 var task = storageRef.put($scope.user.PhotoURI)
-		 
-			task.then(function(snapshot){
-					$scope.user.pp = snapshot.downloadURL;
-			});
-	  }
-		
+	
 		// 
+		console.log($scope.image )
 	var userref = firebase.database().ref("/users/"+UID).set({		
 			AccountType:  $scope.user.type,			  
 			displayName :  $scope.user.displayName,
-		   ProfilePicture : $scope.user.pp
+		   ProfilePicture :$scope.user.PhotoURI
 		});
 		//if the user is artist 
 		if($scope.user.type == 'Artist'){			
@@ -457,7 +459,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 				   EyeColor:$scope.user.EyeColor,
 				  	Shootnudes:$scope.user.Shootnudes,
 				  	Tattoos:$scope.user.Tattoos,
-				   ProfilePicture :$scope.user.pp
+				   ProfilePicture :$scope.user.PhotoURI
 				})
 				.then(function(){
 						
@@ -507,7 +509,7 @@ $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
 					UID:UID,
 					Provider:$scope.user.Provider,
 					Gender:$scope.user.Gender,
-				   ProfilePicture :$scope.user.pp
+				   ProfilePicture :$scope.user.PhotoURI
 				})
 				.then(function(){
 				$ionicLoading.hide();
