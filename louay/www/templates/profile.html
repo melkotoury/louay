@@ -30,13 +30,12 @@
               <div class="row ">
 
                   <div ng-repeat="picture in profileData.profilePictures" class="col-33 images"><img src="{{picture}}"></div>
-
-              </div>
-             
-                <div class="col-33 add-image"><a>
+                  <div ng-repeat="picture in profileData.profilePictures" class="col-33 images"><img src="{{picture}}"></div>
+                  <div class="col-33 add-image"><a>
                       <i class="icon ion-plus"></i>
                       </a>
                   </div>
+              </div> 
           </div>
               <div ng-show="showAbout">{{state}}</div>
                 <div class="tabs tabs-icon-only">
