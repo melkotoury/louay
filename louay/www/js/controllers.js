@@ -929,10 +929,11 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	          
  	var uid = Auth.$getAuth().uid;
 	 $scope.showAbout = true;
+	
 	userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
 		.once('value').then(function(snapshot) { 
 		$scope.profileData = snapshot.val();
-		if(uid == $stateParams.ID)
+		if( Auth.$getAuth().uid == $stateParams.ID)
 			$scope.canUpdate = true;
 		console.log(snapshot.val());		
 	})
