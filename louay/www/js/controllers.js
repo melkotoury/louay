@@ -12,7 +12,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 	 	$state.go("intro");	
 
  });
-		var uid = Auth.$getAuth().uid;
+		
 	//move to reslolve
    userProfile.currentMiniData()
 		.then(function(data){
