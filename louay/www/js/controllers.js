@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 		$ionicHistory.nextViewOptions({		
 				 disableBack: true			 
 			 });
-		console.log($scope.currentuserMini.AccountType)
+	
 		$state.go("app.profile",{type:$scope.currentuserMini.AccountType,ID:Auth.$getAuth().uid});
 		
 	}
@@ -1029,13 +1029,14 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	}
 	
 	   $scope.$watch('profileData.profilePictures.length', function() {
-         console.log($scope.profileData.profilePictures);
+      if($scope.profileData){
 		var userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
 
 			.update({
 				profilePictures : $scope.profileData.profilePictures
 			}) 
-    });
+		}
+		});
 
-
+		
 })
