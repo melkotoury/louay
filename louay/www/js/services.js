@@ -42,9 +42,16 @@ angular.module('starter.services', ["firebase","ngCordova"])
 })
 
 .factory("userProfile" , function(Auth,$q){
-	if(Auth.$getAuth()) 
-	var currentUserID = Auth.$getAuth().uid;
+	var currentUserID;
 	
+	if(Auth.$getAuth()) 
+	 currentUserID = Auth.$getAuth().uid;
+	
+	Auth.$onAuthStateChanged(function(firebaseUser) {
+      if(Auth.$getAuth()) 
+	 currentUserID = Auth.$getAuth().uid;
+	
+	});
 	  var userprofile = {}
 	  userprofile.fullCurrentProfile = function(accountType){ 
 			 var deferred = $q.defer();
