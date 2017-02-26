@@ -263,3 +263,19 @@ ion-content.gray
     padding-right: 5px;
     border: 1px solid lightgray;
 }
+.images 
+{
+    border: 1px solid transparent;
+}
+.add-image
+{   
+    font-size: 20px;
+    padding-top: 30px;
+    padding-left: 50px;
+    border: 1px dashed lightgray;
+
+}
+.add-image a
+{
+    color: gray;
+}
