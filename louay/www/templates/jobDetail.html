@@ -43,14 +43,10 @@
 					  </div>
 					</div>
 					<h2>Bidders : {{bidsCount}}</h2>
-					<div  ng-repeat="bid in jobData.bids">
-						<ion-scroll direction="x" class="item wide-item black">
-							<img src="{{bid.picture}}">
-						</ion-scroll>
-						</div>
+
 				</div>
 		  </div>
-		  <div class="list card" ng-if="jobOwner">
+		  <div class="list card">
 			  <div class="item item-body">
 			  	<h1>People :</h1>
 			  </div>
@@ -58,9 +54,9 @@
 					<img src={{bid.picture}}>
 					<h2>{{bid.name}}</h2>
 					<p>{{bid.bidDesc}}</p>
-		   		<p>{{bid.amount}}</p>
+		   		<p ng-if="jobOwner">{{bid.amount}}</p>
 			   	<hr>
-				   	<div class="button-bar">
+				   	<div class="button-bar" ng-if="jobOwner">
 					   <a ng-if="!acceptedBid" ng-click="acceptBid(bid.biderID)"  class="button button-small button-balanced"><i class="ion ion-checkmark"></i> Accept</a>
 					   <a class="button button-small button-positive"><i class="ion ion-chatboxes"></i> Message</a>
 					</div>
