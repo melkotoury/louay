@@ -156,13 +156,17 @@ ion-content.gray
 }
 .list label input
 {
-    width: 50%;
+    width: 80%;
 }
 .list label input:focus 
 {  
     width: 95%;
-    border-bottom:  2px solid gray;
+    border-bottom: 3px solid gray;
     transition: width 1s;
+}
+.list label textarea
+{
+    max-width: 98%;
 }
 .nav-tabs
 {
@@ -316,4 +320,9 @@ ion-content.gray
 {
     padding-top: 6px !important;
     padding-bottom: 50px !important;
+}
+.page-bottom
+{
+    top: 75px;
+    bottom: 0 !important;
 }
