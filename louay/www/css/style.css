@@ -137,6 +137,11 @@ ion-scroll img
     margin-left: 10%;
     color: black;
 }
+.tabs
+{
+    position: fixed !important;
+    bottom: 0px !important;
+}
 .lol a
 {
     margin-left: 50%;
@@ -306,4 +311,9 @@ ion-content.gray
 .login label input
 {
     background-color: transparent;
+}
+.padding-bottom
+{
+    padding-top: 6px !important;
+    padding-bottom: 50px !important;
 }

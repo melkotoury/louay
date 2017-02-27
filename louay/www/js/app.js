@@ -39,6 +39,12 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
   }])
 */
+    .config(['$ionicConfigProvider', function($ionicConfigProvider) {
+
+    $ionicConfigProvider.tabs.position('bottom'); // other values: top
+
+}])
+
 .config(function($stateProvider, $urlRouterProvider) {
   
 $stateProvider
