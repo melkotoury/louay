@@ -128,12 +128,13 @@ ion-scroll img
 	background-color: rgba(255,255,255,0.0);
 	border: 0px;
 	position: absolute;
-	top: 60%; 
+	top: 65%; 
 	left: -0%;  
     width: 100%;
 }
 .lol h2, .lol p
 {
+    
     margin-left: 10%;
     color: black;
 }
@@ -325,4 +326,12 @@ ion-content.gray
 {
     top: 75px;
     bottom: 0 !important;
+}
+.image_container{
+	position:relative;	
+}
+.image_container .view_btn{
+	position:absolute !important;
+	left:0;
+	top:0;
 }
