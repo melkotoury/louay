@@ -289,4 +289,9 @@ ion-content.gray
     max-width: 70px;
     max-height: 70px;
     width: 100%;
-    border-radius: 50px; }
+    border-radius: 50px; 
+}
+.login label input
+{
+    background-color: transparent;
+}

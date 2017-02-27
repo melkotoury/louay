@@ -8,30 +8,18 @@
     <div class="center-form panel">
       <div class="panel-body">
         <h4 class="text-center"><i class="ion-log-in"></i> Log in</h4>
-
-        
-          <div class="form-group has-feedback" ng-class="{ 'has-error': loginForm.email.$invalid && loginForm.email.$dirty }">
-            <input server-error class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="Email" required autofocus>
-            <span class="ion-at form-control-feedback"></span>
-            <div class="help-block" ng-if="loginForm.email.$dirty" ng-messages="loginForm.email.$error">
-              <div ng-message="required">Please enter your email</div>
-              <div class="text-danger" ng-message="server">{{errorMessage.email}}</div>
-            </div>
+          <div class="list login">
+              <label class="item-input-wrapper">
+                  <i class="icon ion-person placeholder-icon"></i>
+                  <input class="" type="search" placeholder="Username">
+              </label><br>
+              <label class="item-input-wrapper">
+                  <i class="icon ion-locked placeholder-icon"></i>
+                  <input type="search" placeholder="Password">
+              </label>
           </div>
-
-          <div class="form-group has-feedback" ng-class="{ 'has-error': loginForm.password.$invalid && loginForm.password.$dirty }">
-            <input server-error class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="Password" required>
-            <span class="ion-key form-control-feedback"></span>
-            <div class="help-block" ng-if="loginForm.password.$dirty" ng-messages="loginForm.password.$error">
-              <div ng-message="required">Please enter your password</div>
-              <div class="text-danger" ng-message="server">{{errorMessage.password}}</div>
-            </div>
-          </div>
-
-          <button ng-click="emailLogin()" class="btn btn-block btn-success" ng-disabled="loginForm.$invalid">Log in</button>
-
-          <br/>
-
+          <button ng-click="emailLogin()" class="button button-block button-dark" ng-disabled="loginForm.$invalid">Log in</button>
+          <br>
           <p class="text-center text-muted">
             <small>Don't have an account yet? <a ng-click="goSignup()" >Sign up</a></small>
           </p>
@@ -40,17 +28,13 @@
             <h6 class="text">or</h6>
             <hr>
           </div>
-     
-        <div class="social-btn">
-        <a class="btn btn-block btn-instagram"  ng-click="instagramLogin()">
-          <i class="ion-social-instagram"></i> Sign in with Instagram
-        </a>
-         <a class="btn btn-block btn-facebook" ng-click="facebookLogin()">
-          <i class="ion-social-facebook"></i> Sign in with Facebook
-        </a>
-        </div>
+          <button ng-click="emailLogin()" class="button button-block btn-facebook" ng-disabled="loginForm.$invalid"><i class="ion-social-facebook"></i> Log in with Facebook</button>
+          <button ng-click="emailLogin()" class="button button-block btn-instagram" ng-disabled="loginForm.$invalid"><i class="ion-social-instagram-outline"></i> Log in with Instagram</button>
       </div>
     </div>
     <div>
  
+       </div>
+      </div>
+    </ion-content>
 </ion-view>
