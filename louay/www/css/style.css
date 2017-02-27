@@ -60,12 +60,16 @@
 }
 .menuAvatar {
 	background-image: url(http://cdn30.us1.fansshare.com/image/blackandwhite/black-and-white-city-bird-people-black-and-white-227371976.jpg);
+    padding-bottom: 10px;
 } 
 .menutext {
 	color: dimgrey!important;
-	font-size: 26px !important;
-
-
+	font-size: 25px !important;
+    margin-left: 15px;
+}
+span.title
+{
+    font-size: 15px !important;
 }
 .white
 {
@@ -277,14 +281,12 @@ ion-content.gray
 {
     color: gray;
 }
-.item-avatar a img
+.item-avatar a img , .menuAvatar img
 {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    margin-top: 55px;
+    margin-left: 15px;
     font-size: 36px;
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 70px;
+    max-height: 70px;
     width: 100%;
     border-radius: 50px; }
-}

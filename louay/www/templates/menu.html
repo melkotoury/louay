@@ -22,30 +22,30 @@
                 <p>
                     <span class="menutext">{{currentuserMini.displayName}}</span>
                     <br/>
-                    <span class="menutext"> {{currentuserMini.AccountType}}</span>
+                    <span class="menutext title"> {{currentuserMini.AccountType}}</span>
                 </p>
             </div><!--end menu header section-->
    
     	
 		 </div>
      
-      <ion-list id="toggle-menu-left-content" class="menu-list">
+      <ion-list id="toggle-menu-left-content" class="menu-list item-borderless">
                       
-        <ion-item menu-close href="#/app/home">
+        <ion-item menu-close href="#/app/home" class="item-borderless">
          <i class="icon ion-home"></i> Home
         </ion-item>
-        <ion-item menu-close href="#/app/jobs"> 
-       <i class="icon ion-document-text"></i>   Jobs
+        <ion-item menu-close href="#/app/jobs" class="item-borderless"> 
+       <i class="icon ion-document-text"></i> Jobs
         </ion-item>
-        <ion-item menu-close href="#/app/tfp">
-       <i class="icon ion-document-text"></i>   TPF
+        <ion-item menu-close href="#/app/tfp" class="item-borderless">
+       <i class="icon ion-document-text"></i> TPF
         </ion-item>
-        <ion-item menu-close>
-       <i class="icon ion-ios-pricetag"></i>   Rent
+        <ion-item menu-close class="item-borderless">
+       <i class="icon ion-ios-pricetag" ></i> Rent
         </ion-item>
-        <ion-item>
+        <ion-item class="item-borderless">
 			</ion-item>
-         <ion-item ng-click="logout()"  menu-close>
+         <ion-item ng-click="logout()"  menu-close class="item-borderless">
         <i class="icon ion-log-out"></i>  Logout
         </ion-item>
       </ion-list>
