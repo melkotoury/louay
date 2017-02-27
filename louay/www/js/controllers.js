@@ -2,6 +2,9 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 .controller('AppCtrl', function($scope,firebase,$state,userProfile,Auth,$cordovaCamera,$ionicPopup,$ionicHistory) {
 
+	$scope.$root.enableLeft = true;
+$scope.$root.showMenuIcon = true;
+
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -9,7 +12,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
  $scope.$on('$ionicView.enter', function(e,data) {
 	
  if(localStorage.getItem("Sawintro")!="true")
-	 $state.go("app.home");	
+	 $state.go("intro");	
 
  });
 		if(Auth.$getAuth()) 
@@ -104,7 +107,9 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 
 .controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory,$ionicSideMenuDelegate) {
    // holds the user data
-	    $ionicSideMenuDelegate.toggleLeft();
+$scope.$root.enableLeft = false;
+$scope.$root.showMenuIcon = false;
+
 
 	$scope.user = {email:"",password:""}
 	
@@ -125,6 +130,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 			 $ionicHistory.nextViewOptions({		
 				 disableBack: true			 
 			 });
+			$scope.$root.enableLeft = true;
 			$state.go("app.home");
 			//TODO when user is logged in
 		
@@ -143,6 +149,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 			 $ionicHistory.nextViewOptions({		
 				 disableBack: true			 
 			 });
+		  $scope.$root.enableLeft = true;
 			 $state.go("app.signup");
 	}
 	
@@ -170,6 +177,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.email   = firebaseUser.email;
 					userData.PhotoURI = firebaseUser.photoURL;
 					$ionicLoading.hide();
+					$scope.$root.enableLeft = true;
 					 $state.go("app.signup");
 				}
 				else {   
@@ -178,7 +186,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					$ionicHistory.nextViewOptions({
 							 disableBack: true 	
 					});
-					
+					$scope.$root.enableLeft = true;
 					$state.go("app.home");	
 				}
 			 }).catch(function(error){
@@ -218,11 +226,14 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 					userData.displayName = firebaseUser.displayName;
 					userData.email   = firebaseUser.email;
 					userData.PhotoURI = firebaseUser.photoURL;
+					$scope.$root.enableLeft = true;
+
 					 $state.go("app.signup");
 				}
-				else 
+				else{  			
+					$scope.$root.enableLeft = true;
 						 $state.go("app.home");
-				
+				}
 			})
 			}).catch(function(error) {
 				//TODO show error to the user using a pop up	
@@ -247,7 +258,7 @@ angular.module('starter.controllers', ['ngCordova','ngCordovaOauth'])
 })
 
 
-.controller('IntroCtrl', function($scope,$state,$timeout) {
+.controller('IntroCtrl', function($scope,$state,$timeout,$ionicSideMenuDelegate) {
 //Should be moved to resolve and handled with a promise
 
 	$scope.skip = function(){

@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus  enable-menu-with-back-views="false" >
   <ion-side-menu-content>
     <ion-nav-bar class="bar-dark material-background-nav-bar">
       <ion-nav-back-button>
@@ -12,9 +12,9 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+  <ion-side-menu ng-show="$root.enableLeft" side="left" id="m">
   
-    <ion-content >
+    <ion-content  ng-show="$root.enableLeft">
     <div class="material-background" id="toggle-menu-left-header">
      <div class="menu-left-header menuAvatar " >
                 <img menu-close class="user-img" ng-click="myprofile()" src="{{currentuserMini.ProfilePicture}}">
@@ -29,7 +29,7 @@
     	
 		 </div>
      
-      <ion-list id="toggle-menu-left-content" class="menu-list item-borderless">
+      <ion-list>
                       
         <ion-item menu-close href="#/app/home" class="item-borderless">
          <i class="icon ion-home"></i> Home

@@ -49,18 +49,18 @@ angular.module('starter', ['ionic', 'starter.controllers','firebase',"starter.se
   
 $stateProvider
   
-
+.state('intro', {
+    url: '/',
+    templateUrl: 'templates/intro.html',
+    controller: 'IntroCtrl'
+  })
     .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
-.state('intro', {
-    url: '/',
-    templateUrl: 'templates/intro.html',
-    controller: 'IntroCtrl'
-  })
+
 
   .state('app.login', {
     url: '/login',
