@@ -281,7 +281,20 @@ ion-content.gray
 {
     color: gray;
 }
-.item-avatar a img , .menuAvatar img
+.item-avatar img
+{
+    position: absolute;
+    top: 15px;
+    bottom: 0;
+    left: 5px;
+    right: 0;
+    font-size: 36px;
+    max-width: 60px;
+    max-height: 60px;
+    width: 100%;
+    border-radius: 50px;
+}
+.menuAvatar img
 {
     margin-top: 55px;
     margin-left: 15px;
