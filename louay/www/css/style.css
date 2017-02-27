@@ -67,14 +67,6 @@
 
 
 }
-
-
-
-.html,body
-{
-	overflow-x: hidden;
-	 overflow-y: scroll; 
-}
 .white
 {
     color: white; 
@@ -284,4 +276,15 @@ ion-content.gray
 .add-image a
 {
     color: gray;
+}
+.item-avatar a img
+{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 36px;
+    max-width: 50px;
+    max-height: 50px;
+    width: 100%;
+    border-radius: 50px; }
 }
