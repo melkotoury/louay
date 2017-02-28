@@ -90,21 +90,6 @@ $scope.$root.showMenuIcon = true;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .controller('loginCtrl', function($scope,Auth,$http, $state,userData,$cordovaOauth,$ionicLoading,$ionicPopup ,$ionicHistory,$ionicSideMenuDelegate) {
    // holds the user data
 $scope.$root.enableLeft = false;
@@ -953,9 +938,13 @@ $scope.tfp = {title:"",description:"",categorie:"",loction:"",reference:""}
 	userref = firebase.database().ref("/"+$stateParams.type+"/"+$stateParams.ID)
 		.once('value').then(function(snapshot) { 
 		$scope.profileData = snapshot.val();
+			$scope.$apply($scope.profileData)
 		if( Auth.$getAuth().uid == $stateParams.ID)
 			$scope.canUpdate = true;
-		console.log(snapshot.val());		
+		
+			if($scope.profileData.Catgories.indexOf("Model")!=-1)
+			  $scope.isModel = true;
+				console.log(snapshot.val());		
 	})
 
 	
