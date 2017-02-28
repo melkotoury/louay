@@ -128,13 +128,16 @@ ion-scroll img
 	background-color: rgba(255,255,255,0.0);
 	border: 0px;
 	position: absolute;
-	top: 65%; 
+	top: 57%; 
 	left: -0%;  
     width: 100%;
 }
+.job-detail
+{
+    top: 65%; 
+}
 .lol h2, .lol p
 {
-    
     margin-left: 10%;
     color: black;
 }
