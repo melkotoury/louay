@@ -36,6 +36,6 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "angular": "1.5.7"
+    "angular": "1.8.3"
   }
 }
